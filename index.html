@@ -18,16 +18,18 @@
 <title>Chereography</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
-/* Layout: iOS-style app shell. Large-title nav bar, one scrolling pane per tab (Calendar / Plan / Insights), bottom tab bar on phones that moves into the nav bar as a pill on wide screens. Wide Calendar tab adds an "Up next" column. Sheets slide up from the bottom (centered cards on wide screens). */
+/* Layout: iOS-style app shell. Large-title nav bar, one scrolling pane per tab (Calendar / Plan / Insights), bottom tab bar on phones that moves into the nav bar as a pill on wide screens. Wide Calendar tab adds a "Today" column. Sheets slide up from the bottom (centered cards on wide screens). */
 :root{
   --bg:#FFFFFF; --card:#F2F2F7; --sheet:#F2F2F7; --row:#FFFFFF; --thumb:#FFFFFF;
   --fill:rgba(120,120,128,.12); --fill-2:rgba(120,120,128,.2); --sep:rgba(60,60,67,.16);
   --label:#1C1C1E; --label-2:#6C6C70; --label-3:#A1A1A6;
   --g1:#EDC6B7; --g2:#D09592; --g3:#B76E79;
-  --accent:#B76E79; --accent-text:#A15A65; --accent-soft:rgba(183,110,121,.13); --on-accent:#FFFFFF;
-  --c-rehearsal:#B76E79; --c-class:#AF52DE; --c-performance:#FF9500; --c-work:#1FA2B6; --c-personal:#007AFF; --c-busy:#8E8E93;
-  --ok:#34C759; --warn:#FF9500; --bad:#FF3B30;
+  --accent:#B76E79; --accent-text:#A15A65; --accent-soft:rgba(183,110,121,.13);
+  --k-rose:#B76E79; --k-red:#FF3B30; --k-orange:#FF9500; --k-yellow:#D9A400; --k-green:#34C759; --k-teal:#1FA2B6;
+  --k-blue:#007AFF; --k-indigo:#5856D6; --k-purple:#AF52DE; --k-pink:#FF2D55; --k-brown:#A2845E; --k-gray:#8E8E93;
+  --ok:#34C759; --warn:#FF9500; --bad:#FF3B30; --ok-text:#248A3D; --warn-text:#C26A00;
   --bar:rgba(255,255,255,.86); --scrim:rgba(0,0,0,.28); --shadow:0 12px 40px rgba(0,0,0,.14);
+  --grad2:linear-gradient(140deg,#CF9195 0%,#B76E79 55%,#9C5562 100%);
   --f:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",Roboto,"Helvetica Neue",system-ui,sans-serif;
   --ease:cubic-bezier(.32,.72,0,1);
   --gutL:max(16px,env(safe-area-inset-left,0px)); --gutR:max(16px,env(safe-area-inset-right,0px));
@@ -37,22 +39,24 @@
   --fill:rgba(120,120,128,.24); --fill-2:rgba(120,120,128,.36); --sep:rgba(84,84,88,.6);
   --label:#F5F5F7; --label-2:#AEAEB2; --label-3:#6E6E73;
   --g1:#F5D6C8; --g2:#E3A89F; --g3:#C98890;
-  --accent:#E0A49C; --accent-text:#EBB5AD; --accent-soft:rgba(224,164,156,.17); --on-accent:#2A1517;
-  --c-rehearsal:#E0A49C; --c-class:#BF5AF2; --c-performance:#FF9F0A; --c-work:#40C8E0; --c-personal:#0A84FF; --c-busy:#98989D;
-  --ok:#30D158; --warn:#FF9F0A; --bad:#FF453A;
-  --bar:rgba(28,28,30,.86); --scrim:rgba(0,0,0,.55); --shadow:0 12px 40px rgba(0,0,0,.5); color-scheme:dark}}
+  --accent:#E0A49C; --accent-text:#EBB5AD; --accent-soft:rgba(224,164,156,.17);
+  --k-rose:#E0A49C; --k-red:#FF453A; --k-orange:#FF9F0A; --k-yellow:#FFD60A; --k-green:#30D158; --k-teal:#40C8E0;
+  --k-blue:#0A84FF; --k-indigo:#7D7AFF; --k-purple:#BF5AF2; --k-pink:#FF375F; --k-brown:#AC8E68; --k-gray:#98989D;
+  --ok:#30D158; --warn:#FF9F0A; --bad:#FF453A; --ok-text:#30D158; --warn-text:#FF9F0A;
+  --bar:rgba(28,28,30,.86); --scrim:rgba(0,0,0,.55); --shadow:0 12px 40px rgba(0,0,0,.5);
+  --grad2:linear-gradient(140deg,#C98890 0%,#A86470 55%,#8A4F5C 100%); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1C1C1E; --card:#2C2C2E; --sheet:#2C2C2E; --row:#3A3A3C; --thumb:#636366;
   --fill:rgba(120,120,128,.24); --fill-2:rgba(120,120,128,.36); --sep:rgba(84,84,88,.6);
   --label:#F5F5F7; --label-2:#AEAEB2; --label-3:#6E6E73;
   --g1:#F5D6C8; --g2:#E3A89F; --g3:#C98890;
-  --accent:#E0A49C; --accent-text:#EBB5AD; --accent-soft:rgba(224,164,156,.17); --on-accent:#2A1517;
-  --c-rehearsal:#E0A49C; --c-class:#BF5AF2; --c-performance:#FF9F0A; --c-work:#40C8E0; --c-personal:#0A84FF; --c-busy:#98989D;
-  --ok:#30D158; --warn:#FF9F0A; --bad:#FF453A;
-  --bar:rgba(28,28,30,.86); --scrim:rgba(0,0,0,.55); --shadow:0 12px 40px rgba(0,0,0,.5); color-scheme:dark}
-:root{--grad:linear-gradient(135deg,var(--g1) 0%,var(--g2) 50%,var(--g3) 100%);--grad2:linear-gradient(140deg,#CF9195 0%,#B76E79 55%,#9C5562 100%)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--grad2:linear-gradient(140deg,#C98890 0%,#A86470 55%,#8A4F5C 100%)}}
-:root[data-theme="dark"]{--grad2:linear-gradient(140deg,#C98890 0%,#A86470 55%,#8A4F5C 100%)}
+  --accent:#E0A49C; --accent-text:#EBB5AD; --accent-soft:rgba(224,164,156,.17);
+  --k-rose:#E0A49C; --k-red:#FF453A; --k-orange:#FF9F0A; --k-yellow:#FFD60A; --k-green:#30D158; --k-teal:#40C8E0;
+  --k-blue:#0A84FF; --k-indigo:#7D7AFF; --k-purple:#BF5AF2; --k-pink:#FF375F; --k-brown:#AC8E68; --k-gray:#98989D;
+  --ok:#30D158; --warn:#FF9F0A; --bad:#FF453A; --ok-text:#30D158; --warn-text:#FF9F0A;
+  --bar:rgba(28,28,30,.86); --scrim:rgba(0,0,0,.55); --shadow:0 12px 40px rgba(0,0,0,.5);
+  --grad2:linear-gradient(140deg,#C98890 0%,#A86470 55%,#8A4F5C 100%); color-scheme:dark}
+:root{--grad:linear-gradient(135deg,var(--g1) 0%,var(--g2) 50%,var(--g3) 100%)}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -62,18 +66,19 @@ input,textarea,select{-webkit-user-select:text;user-select:text}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;-webkit-touch-callout:none}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 svg{display:block}
-.t-rehearsal{--c:var(--c-rehearsal)} .t-class{--c:var(--c-class)} .t-performance{--c:var(--c-performance)} .t-work{--c:var(--c-work)} .t-personal{--c:var(--c-personal)} .t-busy{--c:var(--c-busy)}
-.c-dance{--c:var(--accent)} .c-work{--c:var(--c-work)} .c-other{--c:var(--c-personal)}
+.k-rose{--c:var(--k-rose)} .k-red{--c:var(--k-red)} .k-orange{--c:var(--k-orange)} .k-yellow{--c:var(--k-yellow)} .k-green{--c:var(--k-green)} .k-teal{--c:var(--k-teal)}
+.k-blue{--c:var(--k-blue)} .k-indigo{--c:var(--k-indigo)} .k-purple{--c:var(--k-purple)} .k-pink{--c:var(--k-pink)} .k-brown{--c:var(--k-brown)} .k-gray{--c:var(--k-gray)}
+.c-dance{--c:var(--accent)} .c-work{--c:var(--k-teal)} .c-other{--c:var(--k-blue)}
 
 /* Shell */
 .app{height:100%;display:flex;flex-direction:column;position:relative}
 .nav{flex:none;padding:calc(6px + env(safe-area-inset-top,0px)) var(--gutR) 0 var(--gutL);position:relative;z-index:5;background:var(--bg)}
-.nav-row{display:flex;align-items:center;gap:8px;height:44px}
+.nav-row{display:flex;align-items:center;gap:6px;height:44px}
 .nav-row .grow{flex:1}
 .txtbtn{color:var(--accent-text);font-size:17px;padding:8px 2px;white-space:nowrap}
 .txtbtn.strong{font-weight:600}
 .txtbtn:disabled{color:var(--label-3);cursor:default}
-.icbtn{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:var(--accent-text)}
+.icbtn{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--accent-text);flex:none}
 .icbtn:hover{background:var(--fill)}
 .addbtn{width:36px;height:36px;border-radius:50%;background:var(--grad2);color:#fff;display:grid;place-items:center;box-shadow:0 3px 10px color-mix(in srgb,var(--g3) 40%,transparent);flex:none;transition:transform .2s var(--ease)}
 .addbtn:active{transform:scale(.9)}
@@ -100,16 +105,17 @@ svg{display:block}
 .segc .thumb{position:absolute;top:2px;bottom:2px;left:2px;border-radius:7px;background:var(--thumb);box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04);transition:transform .32s var(--ease)}
 
 /* Groups & rows */
-.ghead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:24px 4px 8px}
+.ghead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:26px 4px 8px}
 .ghead h2{margin:0;font-size:20px;font-weight:700;letter-spacing:-.01em}
 .ghead span{color:var(--label-2);font-size:13px;text-align:right}
 @media (hover:hover) and (pointer:fine){.touchonly{display:none}}
+.gfoot{margin:8px 16px 0;font-size:13px;color:var(--label-2);line-height:1.4}
 .group{background:var(--card);border-radius:12px;overflow:hidden}
 .row{display:flex;align-items:center;gap:12px;min-height:48px;padding:10px 16px;position:relative;width:100%;text-align:left}
-.group>.row+.row::before,.group>.srow+.srow .srow-fg::before,.group>.row+.srow .srow-fg::before,.group>.srow+.row::before{content:"";position:absolute;top:0;left:16px;right:0;height:.5px;background:var(--sep)}
+.group>.row+.row::before,.group>.srow+.srow .srow-fg::before,.group>.row+.srow .srow-fg::before,.group>.srow+.row::before,.group>.drow+.drow::before{content:"";position:absolute;top:0;left:16px;right:0;height:.5px;background:var(--sep)}
 .row .main{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
 .row .t{font-size:16px;font-weight:500;overflow-wrap:anywhere;line-height:1.25}
-.row .s{font-size:13px;color:var(--label-2);overflow-wrap:anywhere}
+.row .s{font-size:13px;color:var(--label-2);overflow-wrap:anywhere;line-height:1.35}
 .row .end{color:var(--label-2);font-size:14px;white-space:nowrap}
 .chev{color:var(--label-3);flex:none}
 .bar3{width:4px;align-self:stretch;border-radius:2px;background:var(--c);flex:none}
@@ -118,14 +124,15 @@ svg{display:block}
 .tcol span{color:var(--label-3)}
 .empty{color:var(--label-2);font-size:15px;padding:14px 16px;margin:0}
 .pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap;flex:none}
-.p-ok{color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent)}
-.p-tight{color:var(--warn);background:color-mix(in srgb,var(--warn) 15%,transparent)}
+.p-ok{color:var(--ok-text);background:color-mix(in srgb,var(--ok) 15%,transparent)}
+.p-tight{color:var(--warn-text);background:color-mix(in srgb,var(--warn) 16%,transparent)}
 .p-short,.p-late{color:var(--bad);background:color-mix(in srgb,var(--bad) 13%,transparent)}
 .p-any{color:var(--label-2);background:var(--fill)}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--c);flex:none}
 
 /* Swipeable session rows */
 .srow{position:relative;overflow:hidden;transition:height .28s var(--ease),opacity .28s}
-.srow-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 22px;color:#fff;font-weight:600;font-size:15px;background:transparent}
+.srow-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 22px;color:#fff;font-weight:600;font-size:15px}
 .srow[data-dir="r"] .srow-bg{background:var(--ok)}
 .srow[data-dir="l"] .srow-bg{background:#8E8E93}
 .srow-bg span{opacity:0}
@@ -141,7 +148,8 @@ svg{display:block}
 .srow .t{font-size:16px;font-weight:500;overflow-wrap:anywhere;line-height:1.25}
 .srow .s{font-size:13px;color:var(--label-2)}
 .kick{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-text)}
-.srow.c-work .kick{color:var(--c-work)} .srow.c-other .kick{color:var(--c-personal)}
+.srow.c-work .kick{color:var(--k-teal)} .srow.c-other .kick{color:var(--k-blue)}
+.pin{display:inline-block;margin-left:6px;color:var(--label-3);vertical-align:-1px}
 
 /* Hero (Plan) */
 .hero{position:relative;border-radius:20px;padding:18px;overflow:hidden;color:#fff;background:var(--grad2);display:flex;gap:16px;align-items:center}
@@ -176,7 +184,7 @@ svg{display:block}
 .wday.today .dh b{color:var(--accent-text)}
 .sessrow .bar3{background:repeating-linear-gradient(180deg,var(--c) 0 4px,transparent 4px 7px)}
 .sessrow .s{color:var(--accent-text)}
-.sessrow.c-work .s{color:var(--c-work)}
+.sessrow.c-work .s{color:var(--k-teal)}
 
 /* Week grid (wide) */
 .wk{display:none}
@@ -197,13 +205,13 @@ svg{display:block}
 .wk-ax span:first-child{transform:none}
 .wk-c{position:relative;border-left:.5px solid var(--sep);background-image:linear-gradient(to bottom,var(--sep) 0 .5px,transparent .5px);background-size:100% calc(100% / var(--hours))}
 .wk-c.today{background-color:color-mix(in srgb,var(--accent) 5%,transparent)}
+.prz{position:absolute;left:0;right:0;background:color-mix(in srgb,var(--accent) 6%,transparent);border-top:1px dashed color-mix(in srgb,var(--accent) 30%,transparent);border-bottom:1px dashed color-mix(in srgb,var(--accent) 30%,transparent);pointer-events:none}
 .now{position:absolute;left:-1px;right:0;height:2px;background:var(--bad);z-index:4;pointer-events:none}
 .now::before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--bad)}
 .blk{position:absolute;left:calc(var(--l) * 1% + 2px);width:calc(var(--w) * 1% - 4px);top:calc(var(--t) * 1%);height:calc(var(--h) * 1% - 2px);min-height:18px;border-radius:5px;padding:3px 6px 3px 7px;overflow:hidden;font-size:12px;line-height:1.25;text-align:left;z-index:2;
   background:color-mix(in srgb,var(--c) 20%,var(--bg));border-left:3px solid var(--c);color:color-mix(in srgb,var(--c) 42%,var(--label));transition:box-shadow .2s}
 .blk:hover{z-index:6;box-shadow:var(--shadow)}
 .blk b{display:block;font-weight:600;overflow-wrap:anywhere}
-
 .blk .tm{display:block;opacity:.85;font-size:11px}
 .blk.free{background:var(--bg);border:1px dotted var(--c);border-left:3px solid var(--c)}
 .blk.sess{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--c) 17%,transparent) 0 5px,transparent 5px 10px),var(--bg);border:1.5px dashed var(--c)}
@@ -227,15 +235,41 @@ svg{display:block}
 .mo-it{display:none}
 
 /* Insights */
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tile{background:var(--card);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:2px;min-width:0}
-.tile .k{font-size:13px;color:var(--label-2);font-weight:500}
-.tile .v{font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
-.tile .v small{font-size:15px;font-weight:600;color:var(--label-2);margin-left:3px}
-.tile .n{font-size:12.5px;color:var(--label-2)}
-.ringcard{background:var(--card);border-radius:18px;padding:18px;display:flex;align-items:center;gap:18px}
-.ringcard h3{margin:0 0 4px;font-size:20px;font-weight:700;letter-spacing:-.01em}
-.ringcard p{margin:0;color:var(--label-2);font-size:14px}
+.verdict{background:var(--card);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px}
+.verdict .vk{font-size:13px;font-weight:600;color:var(--label-2)}
+.verdict h3{margin:0;font-size:30px;font-weight:700;letter-spacing:-.022em;line-height:1.1;color:var(--vc)}
+.verdict p{margin:2px 0 0;font-size:15px;line-height:1.45}
+.v-ok{--vc:var(--ok-text);--vb:var(--ok)} .v-mid{--vc:var(--accent-text);--vb:var(--accent)} .v-tight{--vc:var(--warn-text);--vb:var(--warn)} .v-over{--vc:var(--bad);--vb:var(--bad)}
+.capbar{height:10px;border-radius:5px;background:var(--fill-2);overflow:hidden;margin-top:10px}
+.capbar i{display:block;height:100%;border-radius:5px;background:var(--vb);transform-origin:left;animation:growx .9s var(--ease) both}
+.caplab{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--label-2)}
+.caplab b{color:var(--label);font-weight:600}
+.drow{display:grid;grid-template-columns:52px minmax(0,1fr) 86px;align-items:center;gap:12px;padding:11px 16px;width:100%;text-align:left;position:relative}
+.drow .dl b{display:block;font-size:15px;font-weight:600;line-height:1.2}
+.drow .dl span{font-size:12px;color:var(--label-2)}
+.drow.today .dl b{color:var(--accent-text)}
+.dbar{height:12px;border-radius:6px;background:var(--fill);display:flex;overflow:hidden}
+.dbar i{display:block;height:100%;transform-origin:left;animation:growx .8s var(--ease) both}
+.dbar .b{background:var(--label-3)} .dbar .p{background:var(--grad2)}
+.drow .dr{text-align:right;line-height:1.2}
+.drow .dr b{display:block;font-size:14px;font-weight:600}
+.drow .dr span{font-size:12px;color:var(--label-2)}
+.lv-done{color:var(--label-2)} .lv-packed{color:var(--bad)} .lv-busy{color:var(--warn-text)} .lv-light,.lv-free{color:var(--ok-text)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--label-2);padding:2px 16px 12px}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px}
+.prog{height:6px;border-radius:3px;background:var(--fill-2);overflow:hidden;margin:8px 0 2px}
+.prog i{display:block;height:100%;background:var(--grad2);border-radius:3px;transform-origin:left;animation:growx .9s var(--ease) both}
+@keyframes growx{from{transform:scaleX(0)}to{transform:none}}
+.rtop{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.cmp{display:grid;grid-template-columns:76px minmax(0,1fr) 54px;gap:10px;align-items:center;font-size:13px;color:var(--label-2);padding:2px 16px}
+.cmp .tr{height:8px;border-radius:4px;background:var(--fill);overflow:hidden}
+.cmp .tr i{display:block;height:100%;border-radius:4px;background:var(--grad2);transform-origin:left;animation:growx .9s var(--ease) both}
+.cmp .tr i.ls{background:var(--label-3)}
+.cmp b{color:var(--label);font-weight:600;text-align:right}
+.note{display:flex;gap:12px;align-items:flex-start}
+.note .ic{width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-text);display:grid;place-items:center;flex:none}
+.note .nt{font-size:15px;line-height:1.42;padding-top:3px}
 .ring circle{fill:none}
 .ring .trk{stroke:var(--fill-2)}
 .ring .val{stroke:url(#rg);stroke-linecap:round;transition:stroke-dashoffset 1.1s var(--ease);transform:rotate(-90deg);transform-origin:50% 50%}
@@ -244,23 +278,6 @@ svg{display:block}
 .ring-center{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1.05}
 .ring-center b{font-size:20px;font-weight:700;letter-spacing:-.02em}
 .ring-center small{display:block;font-size:11px;opacity:.8;font-weight:600}
-.chart{background:var(--card);border-radius:14px;padding:14px 14px 12px}
-.bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:end;height:140px}
-.bcol{display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch;height:100%;gap:2px;min-width:0}
-.bseg{border-radius:4px;transform-origin:bottom;animation:grow .7s var(--ease) both;animation-delay:calc(var(--i,0) * 50ms)}
-.bseg.b{background:var(--fill-2)} .bseg.p{background:var(--grad)} .bseg.d{background:var(--ok)}
-@keyframes grow{from{transform:scaleY(0)}to{transform:none}}
-.blabels{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-top:6px;text-align:center;font-size:11px;color:var(--label-2);font-weight:600}
-.blabels .td{color:var(--accent-text)}
-.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--label-2);margin-top:10px}
-.legend span{display:flex;align-items:center;gap:6px}
-.legend i{width:10px;height:10px;border-radius:3px}
-.prog{height:6px;border-radius:3px;background:var(--fill-2);overflow:hidden;margin-top:6px}
-.prog i{display:block;height:100%;background:var(--grad);border-radius:3px;transform-origin:left;animation:growx .9s var(--ease) both}
-@keyframes growx{from{transform:scaleX(0)}to{transform:none}}
-.note{display:flex;gap:12px;align-items:flex-start}
-.note .ic{width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-text);display:grid;place-items:center;flex:none}
-.note .nt{font-size:15px;line-height:1.4;padding-top:3px}
 
 /* Sheets */
 .scrim{position:fixed;inset:0;background:var(--scrim);opacity:0;transition:opacity .35s var(--ease);z-index:40}
@@ -272,19 +289,22 @@ svg{display:block}
 .grab::before{content:"";width:36px;height:5px;border-radius:3px;background:var(--fill-2)}
 .sh-head{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 var(--gutR) 8px var(--gutL);touch-action:none;flex:none}
 .sh-head h2{margin:0;font-size:17px;font-weight:600;text-align:center}
-.sh-head .txtbtn:last-child{justify-self:end}
-.sh-head .txtbtn:first-child{justify-self:start}
+.sh-head>:last-child{justify-self:end}
+.sh-head>:first-child{justify-self:start}
 .sh-body{overflow-y:auto;padding:4px var(--gutR) calc(28px + env(safe-area-inset-bottom,0px)) var(--gutL);display:flex;flex-direction:column;gap:20px;overscroll-behavior:contain}
+.sh-body>*{flex-shrink:0}
+.sh-body.swap{animation:rise .3s var(--ease)}
 .fg{background:var(--row);border-radius:12px;overflow:hidden}
 .fr{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:46px;padding:6px 16px;position:relative;width:100%;text-align:left;font-size:16px}
 .fg>.fr+.fr::before{content:"";position:absolute;top:0;left:16px;right:0;height:.5px;background:var(--sep)}
 .fr>span:first-child{flex:none;max-width:52%}
+.fr .lbl{display:flex;align-items:center;gap:10px;min-width:0}
 .fin{width:100%;border:0;background:transparent;font:17px/1.3 var(--f);color:var(--label);padding:13px 16px;outline:none;display:block}
 .fin::placeholder,.fta::placeholder{color:var(--label-3)}
 textarea.fta{width:100%;border:0;background:transparent;font:16px/1.4 var(--f);color:var(--label);padding:12px 16px;resize:none;outline:none;min-height:70px;display:block}
-.pair{display:flex;gap:6px;justify-content:flex-end;min-width:0;flex-wrap:nowrap}
+.pair{display:flex;gap:6px;justify-content:flex-end;align-items:center;min-width:0;flex-wrap:nowrap;color:var(--label-3)}
 .pill-in{font:16px var(--f);color:var(--label);background:var(--fill);border:0;border-radius:7px;padding:6px 8px;min-width:0;height:34px}
-.pill-in[type=date]{width:136px}.pill-in[type=time]{width:92px}
+.pill-in[type=date]{width:136px}.pill-in[type=time]{width:auto;min-width:84px}
 .pill-in::-webkit-date-and-time-value{text-align:center}
 .fsel{appearance:none;-webkit-appearance:none;font:16px var(--f);color:var(--label-2);background:transparent;border:0;text-align:right;text-align-last:right;padding:8px 18px 8px 0;max-width:62%;min-width:0;background-image:linear-gradient(45deg,transparent 50%,var(--label-3) 50%),linear-gradient(135deg,var(--label-3) 50%,transparent 50%);background-position:calc(100% - 6px) 52%,calc(100% - 1px) 52%;background-size:5px 5px;background-repeat:no-repeat}
 .fsel option{color:#000}
@@ -292,6 +312,7 @@ textarea.fta{width:100%;border:0;background:transparent;font:16px/1.4 var(--f);c
 .ferr{margin:0 4px;color:var(--bad);font-size:14px;font-weight:600}
 .fr.danger{color:var(--bad);justify-content:center}
 .fr.act{color:var(--accent-text);justify-content:center}
+.fr.nav-r{color:var(--label)}
 .fr.danger.armed{background:var(--bad);color:#fff}
 .switch{position:relative;width:51px;height:31px;flex:none}
 .switch input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer;z-index:1}
@@ -309,15 +330,25 @@ textarea.fta{width:100%;border:0;background:transparent;font:16px/1.4 var(--f);c
 .preview .main{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .preview .t{font-size:17px;font-weight:600;overflow-wrap:anywhere}
 .preview .s{font-size:14px;color:var(--label-2)}
-.smart{font-size:14px;color:var(--accent-text);font-weight:500;display:flex;gap:6px;align-items:flex-start;margin-top:4px}
-.smart svg{flex:none;margin-top:1px}
+.smart{font-size:14px;color:var(--accent-text);font-weight:500;display:flex;gap:6px;align-items:flex-start;margin-top:4px;line-height:1.4}
+.smart svg{flex:none;margin-top:2px}
+.smart.warn{color:var(--warn-text)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{background:var(--row);border-radius:999px;padding:8px 13px;font-size:14px;color:var(--label)}
-.chip:active{background:var(--fill-2)}
+.chip{background:var(--row);border-radius:999px;padding:8px 13px;font-size:14px;color:var(--label);transition:background .2s,transform .15s}
+.chip:active{background:var(--fill-2);transform:scale(.96)}
+.chip.slot{font-weight:600;color:var(--accent-text)}
 .hint{font-size:13px;color:var(--label-2);margin:0 4px;line-height:1.4}
 .cap{font-size:13px;color:var(--label-2);margin:0 16px 8px;text-transform:uppercase;letter-spacing:.02em}
 .links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
 .links .txtbtn{font-size:15px}
+.swatches{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;padding:16px}
+.sw{width:100%;max-width:40px;aspect-ratio:1;border-radius:50%;background:var(--c);justify-self:center;transition:box-shadow .2s,transform .2s var(--ease)}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--row),0 0 0 5px var(--c);transform:scale(.9)}
+.sesscard{background:var(--row);border-radius:16px;padding:16px;display:flex;gap:14px;align-items:stretch}
+.sesscard .main{display:flex;flex-direction:column;gap:3px;min-width:0}
+.sesscard .t{font-size:22px;font-weight:700;letter-spacing:-.015em;line-height:1.2;overflow-wrap:anywhere}
+.sesscard .w{font-size:16px;font-weight:500}
+.sesscard .s{font-size:14px;color:var(--label-2)}
 
 /* Toast */
 .toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:var(--label);color:var(--bg);padding:11px 16px;border-radius:14px;font-size:15px;font-weight:500;z-index:60;display:flex;gap:16px;align-items:center;transition:opacity .25s,transform .35s var(--ease);width:max-content;max-width:calc(100vw - 32px);pointer-events:none;box-shadow:var(--shadow)}
@@ -367,7 +398,7 @@ textarea.fta{width:100%;border:0;background:transparent;font:16px/1.4 var(--f);c
   .mo-it.ad::before{display:none}
   .mo-it.sess{color:var(--label-2)}
   .mo-it.sess::before{background:transparent;border:1.5px dashed var(--c);width:4px;height:4px}
-  .sheet{left:50%;right:auto;bottom:auto;top:50%;width:min(540px,calc(100vw - 48px));max-height:min(780px,calc(100% - 64px));border-radius:16px;transform:translate(-50%,-46%) scale(.97);opacity:0;transition:transform .4s var(--ease),opacity .25s}
+  .sheet{left:50%;right:auto;bottom:auto;top:50%;width:min(540px,calc(100vw - 48px));max-height:min(800px,calc(100% - 64px));border-radius:16px;transform:translate(-50%,-46%) scale(.97);opacity:0;transition:transform .4s var(--ease),opacity .25s}
   .sheet.on{transform:translate(-50%,-50%);opacity:1}
   .grab{display:none}
   .sh-head{padding-top:14px}
@@ -394,6 +425,7 @@ textarea.fta{width:100%;border:0;background:transparent;font:16px/1.4 var(--f);c
       <span class="grow"></span>
       <div class="segc toptabs" id="topTabs"><span class="thumb"></span><button data-tab="cal">Calendar</button><button data-tab="plan">Plan</button><button data-tab="ins">Insights</button></div>
       <span class="grow"></span>
+      <button class="icbtn" id="gearBtn" aria-label="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
       <button class="addbtn" id="addBtn" aria-label="Add"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
     </div>
     <div class="titles"><h1 class="ltitle" id="ltitle"></h1><p class="lsub" id="lsub"></p></div>
@@ -446,7 +478,16 @@ const FIREBASE_CONFIG = (typeof window!=='undefined' && window.CHEREOGRAPHY_FIRE
 
 /*CORE-START*/
 const MIN=60000, DAY=86400000;
-const DEFAULTS={dayStart:'08:00',dayEnd:'22:30',buffer:30,minSession:30,practiceAt:'18:00',horizonDays:14,theme:'system'};
+const DEFAULT_TYPES=[
+  {id:'rehearsal',name:'Rehearsal',color:'rose',busy:true,len:120,prep:120,sess:60,words:'rehears, run-through, run through, dress, tech, spacing, cleaning, blocking'},
+  {id:'performance',name:'Performance',color:'orange',busy:true,len:120,prep:240,sess:60,words:'show, perform, recital, showcase, concert, gig, competition, audition, festival, exam'},
+  {id:'class',name:'Class',color:'purple',busy:true,len:90,prep:0,sess:60,words:'class, lesson, workshop, masterclass, coaching, training, teaching'},
+  {id:'work',name:'Work',color:'teal',busy:true,len:60,prep:0,sess:60,words:'shift, work, meeting, client, office, interview'},
+  {id:'personal',name:'Personal',color:'blue',busy:true,len:60,prep:0,sess:60,words:''},
+  {id:'busy',name:'Away',color:'gray',busy:true,len:240,prep:0,sess:60,words:'trip, away, flight, travel, holiday, vacation'}
+];
+const COLORS=['rose','pink','red','orange','yellow','green','teal','blue','indigo','purple','brown','gray'];
+const DEFAULTS={dayStart:'09:00',dayEnd:'23:00',buffer:30,minSession:30,pracWk:['17:00','22:00'],pracWe:['10:00','20:00'],horizonDays:14,theme:'system'};
 const pad=n=>String(n).padStart(2,'0');
 const ymd=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const hmStr=d=>`${pad(d.getHours())}:${pad(d.getMinutes())}`;
@@ -461,6 +502,15 @@ const toMin=s=>{const[h,m]=String(s).split(':').map(Number);return (h||0)*60+(m|
 const startOfWeek=d=>{const s=startOfDay(d);return addDays(s,-((s.getDay()+6)%7))};
 const ceilTo=(d,m)=>new Date(Math.ceil(d.getTime()/(m*MIN))*m*MIN);
 const remainingOf=t=>Math.max(0,(t.minutes||0)-(t.done||0));
+const settingsOf=state=>({...DEFAULTS,...((state&&state.settings)||{})});
+const typesOf=state=>{const t=state&&state.settings&&state.settings.types;return Array.isArray(t)&&t.length?t:DEFAULT_TYPES};
+const typeById=(state,id)=>{const ts=typesOf(state);return ts.find(t=>t.id===id)||ts.find(t=>t.id==='personal')||ts[0]};
+const isWeekend=d=>d.getDay()===0||d.getDay()===6;
+function pracWindow(S,day){const w=isWeekend(day)?S.pracWe:S.pracWk;return[toMin(w[0]),toMin(w[1])||1440]}
+function dayBounds(S,day){const a=setMin(day,toMin(S.dayStart)).getTime();const de=toMin(S.dayEnd);const b=de===0||de>=1440?addDays(day,1).getTime():setMin(day,de).getTime();return[a,b]}
+function intersect(A,B){A=[...A].sort((x,y)=>x[0]-y[0]);B=[...B].sort((x,y)=>x[0]-y[0]);const out=[];let i=0,j=0;
+  while(i<A.length&&j<B.length){const s=Math.max(A[i][0],B[j][0]),e=Math.min(A[i][1],B[j][1]);if(e>s)out.push([s,e]);if(A[i][1]<B[j][1])i++;else j++}return out}
+const subtract=(segs,bs,be)=>segs.flatMap(([s,e])=>be<=s||bs>=e?[[s,e]]:[[s,Math.min(e,bs)],[Math.max(s,be),e]].filter(x=>x[1]-x[0]>0));
 
 function occurrences(state,from,to){
   const out=[],F=from.getTime(),T=to.getTime();
@@ -495,29 +545,26 @@ function learnedPracticeAt(state){
   if(xs.length<3)return null;
   return Math.round(xs[Math.floor(xs.length/2)]/15)*15;
 }
-/* Smart guesses so she never has to fill in practice settings. */
-function guessType(title){const t=String(title).toLowerCase();
-  if(/trip|\baway\b|flight|travel|holiday|vacation|out of town|wedding|retreat|\bcamp\b/.test(t))return'busy';
-  if(/rehears|run[- ]?through|\bdress\b|\btech\b|spacing|cleaning|blocking/.test(t))return'rehearsal';
-  if(/\bshows?\b|perform|recital|showcase|concert|\bgig\b|competition|\bcomp\b|audition|festival|eisteddfod|\bexam\b/.test(t))return'performance';
-  if(/class|lesson|workshop|masterclass|teach|coaching|training|bootcamp/.test(t))return'class';
-  if(/shift|\bwork\b|meeting|client|office|\bcall\b|interview|admin|lecture|tutorial/.test(t))return'work';
-  if(/trip|\baway\b|flight|travel|holiday|vacation|out of town|wedding|retreat|\bcamp\b/.test(t))return'busy';
-  return'personal';}
+/* Picks the event type from the title, using each type's name and keywords.
+   The main phrase (before "for", "at", ":" or ",") decides, and its last keyword wins. */
+function guessType(title,types){
+  const full=String(title||'').toLowerCase();
+  const head=full.split(/\s(?:for|at|with|@)\s|[,:@(]/)[0];
+  const best=txt=>{let b=null,be=-1,bl=0;
+    for(const ty of types){const ws=[ty.name,...String(ty.words||'').split(',')].map(w=>w.trim().toLowerCase()).filter(w=>w.length>=3);
+      for(const w of ws){const re=new RegExp('(^|[^a-z])'+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g');let m;
+        while((m=re.exec(txt))){const end=m.index+m[0].length;if(end>be||(end===be&&w.length>bl)){b=ty.id;be=end;bl=w.length}}}}
+    return b};
+  return best(head)||best(full)||(types.find(t=>t.id==='personal')||types[0]).id;
+}
 function guessCat(title){return /practi[sc]e|choreo|combo|routine|drill|stretch|danc|rehears|\blearn|warm[- ]?up|conditioning|technique|across the floor|turns|jumps|solo|duet|piece/i.test(title)?'dance':'work'}
-function autoPrep(type,title){const t=String(title||'').toLowerCase();
-  if(type==='rehearsal')return /dress|tech|spacing|run[- ]?through|cleaning|blocking/.test(t)?90:120;
-  if(type==='performance')return /competition|\bcomp\b|audition|eisteddfod|\bexam\b/.test(t)?300:240;
-  return 0;}
-const sessFor=total=>total<=90?45:60;
-const DEFAULT_LEN={rehearsal:120,performance:120,class:90,work:60,busy:240,personal:60};
 
 function buildPlan(state,now){
-  const S={...DEFAULTS,...state.settings};
+  const S=settingsOf(state);
   const Q=15*MIN;
   const t0=ceilTo(now,15),T0=t0.getTime();
   const learned=learnedPracticeAt(state);
-  const practiceMin=learned??toMin(S.practiceAt);
+  const prefMin=learned??18*60;
   const tasks=state.tasks.filter(t=>!t.completed&&remainingOf(t)>0);
   const dlOf=new Map();
   let H=addDays(startOfDay(t0),S.horizonDays+1).getTime();
@@ -529,61 +576,69 @@ function buildPlan(state,now){
     const b=o.ev.allDay?0:S.buffer*MIN;
     busy.push([o.start.getTime()-b,o.end.getTime()+b]);raw.push([o.start.getTime(),o.end.getTime()]);
   }
-  const sub=(segs,bs,be)=>segs.flatMap(([s,e])=>be<=s||bs>=e?[[s,e]]:[[s,Math.min(e,bs)],[Math.max(s,be),e]].filter(x=>x[1]-x[0]>0));
-  let free=[];const heavy=new Set();
-  const ds=toMin(S.dayStart),de=toMin(S.dayEnd);
+  let free=[];const heavy=new Set(),cap={},prac=[];
   for(let d=startOfDay(t0);d.getTime()<H;d=addDays(d,1)){
-    const W0=setMin(d,ds).getTime(),W1=de>=1440?addDays(d,1).getTime():setMin(d,de).getTime();
+    const[W0,W1]=dayBounds(S,d);
     let busyMin=0;for(const[a,b]of raw){const o=Math.min(b,W1)-Math.max(a,W0);if(o>0)busyMin+=o/MIN}
     if(busyMin>=420)heavy.add(ymd(d));
-    let ws=Math.max(W0,T0),we=Math.min(W1,H);
+    const[pa,pb]=pracWindow(S,d);const ps=Math.max(setMin(d,pa).getTime(),T0),pe=pb>=1440?addDays(d,1).getTime():setMin(d,pb).getTime();
+    if(pe>ps)prac.push([ps,pe]);
+    const ws=Math.max(W0,T0),we=Math.min(W1,H);
+    cap[ymd(d)]=0;
     if(we-ws<Q)continue;
     let segs=[[ws,we]];
-    for(const[bs,be]of busy){if(be<=ws||bs>=we)continue;segs=sub(segs,bs,be)}
-    for(const s of segs)if(s[1]-s[0]>=Q)free.push({s:s[0],e:s[1]});
+    for(const[bs,be]of busy){if(be<=ws||bs>=we)continue;segs=subtract(segs,bs,be)}
+    for(const s of segs)if(s[1]-s[0]>=Q){free.push({s:s[0],e:s[1]});cap[ymd(d)]+=(s[1]-s[0])/MIN}
   }
   free.sort((a,b)=>a.s-b.s);
   const takeOut=(s,e)=>{const nf=[];for(const f of free){if(e<=f.s||s>=f.e){nf.push(f);continue}if(s-f.s>=Q)nf.push({s:f.s,e:s});if(f.e-e>=Q)nf.push({s:e,e:f.e})}free=nf};
+  // Sessions she picked herself are fixed first.
+  const pinned={};
+  for(const t of tasks){const ps=(t.pins||[]).filter(p=>p[1]>T0).map(p=>[Math.max(p[0],T0),p[1]]).filter(p=>p[1]-p[0]>=Q);pinned[t.id]=ps;for(const p of ps)takeOut(p[0],p[1])}
   tasks.sort((a,b)=>{const da=dlOf.get(a.id)??Infinity,db=dlOf.get(b.id)??Infinity;return (da-db)||((a.created||0)-(b.created||0))});
   const sessions=[],info={};
   for(const t of tasks){
     const total=remainingOf(t);
-    let rem=Math.ceil(total/15)*15;
+    const pins=pinned[t.id]||[];
+    const pinMin=pins.reduce((a,p)=>a+(p[1]-p[0])/MIN,0);
+    let rem=Math.max(0,Math.ceil((total-pinMin)/15)*15);
     const dl=dlOf.get(t.id);
     const nb=t.notBefore?parseYMD(t.notBefore).getTime():0;
     const ws=Math.max(T0,nb),we=dl!=null?Math.min(dl,H):H;
-    const rec={deadline:dl,remaining:total,sessions:[],shortfall:0,lastChance:null,status:dl==null?'any':'ok',
-      missingEvent:t.dueType==='event'&&!state.events.some(e=>e.id===t.eventId)};
+    const rec={deadline:dl,remaining:total,sessions:[],shortfall:0,lastChance:null,status:dl==null?'any':'ok'};
     info[t.id]=rec;
     if(dl!=null&&dl<=T0){rec.status='late';rec.shortfall=total;continue}
-    const minS=Math.min(S.minSession,rem);
-    const sess=t.session||sessFor(t.minutes||60);
+    const minS=Math.min(S.minSession,rem||S.minSession);
+    const sess=t.session||60;
     const split=!!t.split&&rem>sess;
     const chunk=split?Math.max(minS,sess):rem;
     const dance=t.cat==='dance';
     const latest=dance&&dl!=null;
     const skips=(t.skips||[]).filter(s=>s[1]>T0);
-    const within=()=>{let segs=free.map(f=>[Math.max(f.s,ws),Math.min(f.e,we)]).filter(x=>x[1]-x[0]>=Q);for(const[a,b]of skips)segs=sub(segs,a,b);return segs.filter(x=>x[1]-x[0]>=Q).map(([s,e])=>({s,e}))};
-    if(dl!=null){
+    const within=()=>{let segs=free.map(f=>[Math.max(f.s,ws),Math.min(f.e,we)]).filter(x=>x[1]-x[0]>=Q);
+      for(const[a,b]of skips)segs=subtract(segs,a,b);
+      if(dance)segs=intersect(segs,prac);
+      return segs.filter(x=>x[1]-x[0]>=Q).map(([s,e])=>({s,e}))};
+    if(dl!=null&&rem>0){
       const L=within();
       if(!split){for(let i=L.length-1;i>=0;i--){if(L[i].e-L[i].s>=rem*MIN){rec.lastChance=L[i].e-rem*MIN;break}}}
       else{let acc=0;for(let i=L.length-1;i>=0;i--){const len=(L[i].e-L[i].s)/MIN;if(len<minS)continue;if(acc+len>=rem){rec.lastChance=L[i].e-(rem-acc)*MIN;break}acc+=len}}
     }
-    const mine=[];
+    const mine=pins.map(p=>({taskId:t.id,start:p[0],end:p[1],pinned:true}));
     const place=(x,len)=>{
       let st;
-      if(dance){const P=setMin(startOfDay(new Date(x.s)),practiceMin).getTime();st=Math.min(Math.max(P,x.s),x.e-len*MIN)}
+      if(dance){const day=startOfDay(new Date(x.s));const[pa,pb]=pracWindow(S,day);const P=setMin(day,Math.max(0,Math.min(Math.max(prefMin,pa),pb-len))).getTime();st=Math.min(Math.max(P,x.s),x.e-len*MIN)}
       else st=x.s;
       let a=Math.floor(st/Q)*Q;if(a<x.s)a=Math.ceil(x.s/Q)*Q;if(a+len*MIN>x.e)a=x.s;
       takeOut(a,a+len*MIN);mine.push({taskId:t.id,start:a,end:a+len*MIN});rem-=len;
     };
     const dlDay=dl!=null?ymd(new Date(dl)):null;
-    if(!split){
+    if(rem>0&&!split){
       let C=within().filter(x=>x.e-x.s>=rem*MIN);
       if(dance){const easy=C.filter(x=>!heavy.has(ymd(new Date(x.s)))&&ymd(new Date(x.s))!==dlDay);if(easy.length)C=easy}
       const pick=latest?C[C.length-1]:C[0];
       if(pick)place(pick,rem);
-    }else{
+    }else if(rem>0){
       const passes=[{full:true,perDay:true,skipDL:latest,easy:dance},{full:false,perDay:true,skipDL:false,easy:false},{full:false,perDay:false,skipDL:false,easy:false}];
       for(const p of passes){
         let progress=true;
@@ -608,7 +663,7 @@ function buildPlan(state,now){
       }
     }
     mine.sort((a,b)=>a.start-b.start);
-    const merged=[];for(const m of mine){const l=merged[merged.length-1];if(l&&l.end===m.start)l.end=m.end;else merged.push({...m})}
+    const merged=[];for(const m of mine){const l=merged[merged.length-1];if(l&&l.end===m.start){l.end=m.end;l.pinned=l.pinned||m.pinned}else merged.push({...m})}
     merged.forEach((m,i)=>{m.idx=i+1;m.count=merged.length});
     sessions.push(...merged);rec.sessions=merged;
     rec.shortfall=Math.max(0,rem);
@@ -616,7 +671,7 @@ function buildPlan(state,now){
     else if(dl!=null&&rec.lastChance!=null&&rec.lastChance-T0<DAY)rec.status='tight';
   }
   sessions.sort((a,b)=>a.start-b.start);
-  return{sessions,info,t0:T0,free,heavy,learned,practiceMin};
+  return{sessions,info,t0:T0,free,heavy,learned,prefMin,cap,prac};
 }
 
 /* ---------- one-line quick add ---------- */
@@ -667,7 +722,7 @@ function matchEvent(state,text,now){
 }
 function parseQuick(input,now,state){
   const raw=String(input||'').trim();if(!raw)return null;
-  const S={...DEFAULTS,...(state&&state.settings)};
+  const S=settingsOf(state);const types=typesOf(state);
   const today=startOfDay(now);
   const T=tokenizer(raw);
   let repeat='none',repeatDow=null,m;
@@ -688,7 +743,7 @@ function parseQuick(input,now,state){
   let due=null,dueEvent=null;
   if(dueTxt!=null){
     const D=tokenizer(dueTxt);const dd=takeDate(D,today),dt=takeTime(D);const left=cleanTitle(D.s);
-    if(dd||dt){const base=dd?dd.d:today;const mins=dt?dt.start:toMin(S.dayEnd);due=setMin(base,mins);if(!dd&&due<=now)due=addDays(due,1)}
+    if(dd||dt){const base=dd?dd.d:today;const mins=dt?dt.start:toMin(S.dayEnd)||1439;due=setMin(base,Math.min(mins,1439));if(!dd&&due<=now)due=addDays(due,1)}
     else if(left&&state)dueEvent=matchEvent(state,left,now);
     if(!due&&!dueEvent)title=cleanTitle(title+' '+dueTxt);
   }
@@ -697,24 +752,38 @@ function parseQuick(input,now,state){
     const t={kind:'task',title:title||'To-do',cat:guessCat(title),minutes:dur||(isTask?60:30),dueType:'none',due:'',eventId:'',notBefore:''};
     if(due){t.dueType='date';t.due=localStr(due)}
     else if(dueEvent){t.dueType='event';t.eventId=dueEvent.id;t.eventTitle=dueEvent.title}
-    else if(d1){t.notBefore=ymd(d1.d);t.dueType='date';t.due=localStr(setMin(d1.d,toMin(S.dayEnd)))}
-    t.split=t.minutes>(t.cat==='dance'?60:120);t.session=t.cat==='dance'?sessFor(t.minutes):120;
+    else if(d1){t.notBefore=ymd(d1.d);t.dueType='date';t.due=localStr(setMin(d1.d,Math.min(toMin(S.dayEnd)||1439,1439)))}
+    t.split=t.minutes>(t.cat==='dance'?60:120);t.session=t.cat==='dance'?60:120;
     return t;
   }
-  const type=guessType(title||raw);
+  const typeId=guessType(title||raw,types),ty=typeById(state,typeId);
   let base=d1?d1.d:(repeatDow!=null?addDays(today,(repeatDow-today.getDay()+7)%7):today);
   if(tm){
     if(!d1&&repeatDow==null&&setMin(today,tm.start)<=now)base=addDays(today,1);
     const start=setMin(base,tm.start);
     let end;
     if(tm.end!=null){end=setMin(d2?d2.d:base,tm.end);if(end<=start)end=addDays(end,1)}
-    else end=new Date(start.getTime()+(dur||(/shift/i.test(title)?480:DEFAULT_LEN[type]))*MIN);
-    return{kind:'event',title:title||({rehearsal:'Rehearsal',performance:'Performance',class:'Class',work:'Work',busy:'Away',personal:'Event'}[type]),type,allDay:false,start:localStr(start),end:localStr(end),repeat,busy:true};
+    else end=new Date(start.getTime()+(dur||(/shift/i.test(title)?480:ty.len||60))*MIN);
+    return{kind:'event',title:title||ty.name,type:ty.id,allDay:false,start:localStr(start),end:localStr(end),repeat,busy:ty.busy!==false};
   }
-  if(d1&&d1.tonight){const start=setMin(today,19*60);return{kind:'event',title:title||'Event',type,allDay:false,start:localStr(start),end:localStr(new Date(start.getTime()+(dur||DEFAULT_LEN[type])*MIN)),repeat,busy:true}}
-  return{kind:'event',title:title||'Event',type,allDay:true,start:ymd(base),end:ymd(d2?d2.d:base),repeat,busy:type!=='personal'};
+  if(d1&&d1.tonight){const start=setMin(today,19*60);return{kind:'event',title:title||ty.name,type:ty.id,allDay:false,start:localStr(start),end:localStr(new Date(start.getTime()+(dur||ty.len||60)*MIN)),repeat,busy:ty.busy!==false}}
+  return{kind:'event',title:title||ty.name,type:ty.id,allDay:true,start:ymd(base),end:ymd(d2?d2.d:base),repeat,busy:ty.id==='personal'?false:ty.busy!==false};
 }
 function uid(){return Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4)}
+/* Removes practice left behind by deleted or retyped events, and old pins and skips. */
+function tidy(st){
+  const ids=new Set(st.events.map(e=>e.id)),weekly=new Set(st.events.filter(e=>e.repeat==='weekly').map(e=>e.id));
+  st.tasks=st.tasks.filter(t=>!(t.auto&&(!ids.has(t.eventId)||weekly.has(t.eventId))));
+  const now=Date.now();
+  for(const t of st.tasks){
+    if(t.dueType==='event'&&!ids.has(t.eventId)){t.dueType='none';t.eventId=''}
+    if(t.skips)t.skips=t.skips.filter(s=>s[1]>now);
+    if(t.pins)t.pins=t.pins.filter(p=>p[1]>now);
+  }
+  const tids=new Set(typesOf(st).map(t=>t.id));const fb=typeById(st,'personal').id;
+  for(const e of st.events)if(!tids.has(e.type))e.type=fb;
+  return st;
+}
 function exampleState(now){
   const M=startOfWeek(now||new Date());
   const d=(n,h,m=0)=>localStr(setHM(addDays(M,n),h,m));
@@ -730,7 +799,7 @@ function exampleState(now){
     ev({title:'Competition trip, Penang',type:'busy',start:d(6,7),end:d(7,17)}),
     reh,show];
   let c=Date.now();
-  const tk=o=>({id:uid(),cat:'work',minutes:120,done:0,dueType:'none',due:'',eventId:'',notBefore:'',split:false,session:60,notes:'',completed:false,auto:false,created:c++,example:true,skips:[],...o});
+  const tk=o=>({id:uid(),cat:'work',minutes:120,done:0,dueType:'none',due:'',eventId:'',notBefore:'',split:false,session:60,notes:'',completed:false,auto:false,created:c++,example:true,skips:[],pins:[],...o});
   const tasks=[
     tk({title:'Practise for Full rehearsal: Firebird',cat:'dance',minutes:120,split:true,session:60,dueType:'event',eventId:reh.id,auto:true,notes:'Act 2 entrance and the lift section.'}),
     tk({title:'Practise for Showcase at KLPAC',cat:'dance',minutes:240,split:true,session:60,dueType:'event',eventId:show.id,auto:true,done:60}),
@@ -738,8 +807,10 @@ function exampleState(now){
     tk({title:'Write grant application',cat:'work',minutes:240,split:true,session:120,dueType:'date',due:d(9,17)}),
     tk({title:'Learn new combo from video',cat:'dance',minutes:45,session:45}),
   ];
-  const log=[{id:uid(),taskId:tasks[1].id,title:tasks[1].title,cat:'dance',mins:60,at:setHM(M,19,0).getTime(),start:setHM(M,18,0).getTime(),example:true}];
-  return{version:2,settings:{...DEFAULTS},events,tasks,log};
+  const log=[{id:uid(),taskId:tasks[1].id,title:tasks[1].title,cat:'dance',mins:60,at:setHM(M,19,0).getTime(),start:setHM(M,18,0).getTime(),example:true},
+    {id:uid(),taskId:'x',title:'Practice',cat:'dance',mins:90,at:setHM(addDays(M,-4),19,0).getTime(),start:setHM(addDays(M,-4),17,30).getTime(),example:true},
+    {id:uid(),taskId:'x',title:'Practice',cat:'dance',mins:60,at:setHM(addDays(M,-2),20,0).getTime(),start:setHM(addDays(M,-2),19,0).getTime(),example:true}];
+  return{version:3,settings:{...DEFAULTS,v:3,types:JSON.parse(JSON.stringify(DEFAULT_TYPES))},events,tasks,log};
 }
 /*CORE-END*/
 
@@ -748,7 +819,6 @@ function exampleState(now){
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const LS_KEY='chereography.v1',UI_KEY='chereography.ui';
-const TYPE_LABEL={rehearsal:'Rehearsal',class:'Class',performance:'Performance',work:'Work',personal:'Personal',busy:'Away'};
 const CAT_LABEL={dance:'Dance practice',work:'Work',other:'Other'};
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONL=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -757,8 +827,9 @@ const DOWL=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturda
 const CHECK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 const CHEV='<svg class="chev" width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6-6 6"/></svg>';
 const SPARK='<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9zM19 15l.9 2.6 2.6.9-2.6.9L19 22l-.9-2.6-2.6-.9 2.6-.9z"/></svg>';
+const PIN='<svg class="pin" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-label="Moved by you"><path d="M16 3l5 5-3 1-4 4 1 5-2 2-4-4-5 5-1-1 5-5-4-4 2-2 5 1 4-4z"/></svg>';
 
-let state=null,plan={sessions:[],info:{},free:[],heavy:new Set()},mode=FIREBASE_CONFIG?'cloud':'local';
+let state=null,plan={sessions:[],info:{},free:[],heavy:new Set(),cap:{},prac:[]},mode=FIREBASE_CONFIG?'cloud':'local';
 let tab='plan',calView='week',anchor=startOfDay(new Date()),selDay=ymd(new Date());
 try{const u=JSON.parse(localStorage.getItem(UI_KEY)||'{}');if(u.calView==='month')calView='month';if(['cal','plan','ins'].includes(u.tab))tab=u.tab}catch(e){}
 const wide=()=>matchMedia('(min-width:900px)').matches;
@@ -773,18 +844,22 @@ function fmtHrs(m){const h=m/60;return h>=10?String(Math.round(h)):String(Math.r
 function dayDiff(d){return Math.round((startOfDay(d)-startOfDay(new Date()))/DAY)}
 function relDay(d){const n=dayDiff(d);if(n===0)return'today';if(n===1)return'tomorrow';if(n===-1)return'yesterday';return n>0?`in ${n} days`:`${-n} days ago`}
 function dayName(d){const n=dayDiff(d);if(n===0)return'Today';if(n===1)return'Tomorrow';if(n>1&&n<7)return DOWL[d.getDay()];return fmtDay(d)}
+function slotLabel(s){const d=new Date(s);const n=dayDiff(d);return (n===0?'Today':n===1?'Tmrw':DOW[d.getDay()]+(n>=7?' '+d.getDate():''))+' '+fmtTime(d)}
 function inMins(ms){const m=Math.round((ms-Date.now())/MIN);if(m<=0)return'now';if(m<60)return`in ${m} min`;const h=Math.floor(m/60);return h<24?`in ${h}h${m%60>=30?' 30m':''}`:relDay(new Date(ms))}
+const cap1=s=>s?s[0].toUpperCase()+s.slice(1):s;
 const sum=a=>a.reduce((x,y)=>x+y,0);
 const taskById=id=>state.tasks.find(t=>t.id===id);
 const shortTitle=t=>String(t).replace(/^Practi[sc]e (for )?/i,'');
 const evStart=ev=>ev.allDay?parseYMD(ev.start):parseLocal(ev.start);
+const tyOf=ev=>typeById(state,ev.type);
 
 /* ---------- items ---------- */
+function sessOpen(s){return`sess:${s.taskId}:${s.start}:${s.end}`}
 function itemsBetween(from,to){
   const out=[];
-  for(const o of occurrences(state,from,to))out.push({kind:'ev',start:o.start,end:o.end,allDay:!!o.ev.allDay,title:o.ev.title||'Untitled',cls:'t-'+(o.ev.type||'personal')+(o.ev.busy===false?' free':''),open:'ev:'+o.ev.id,sub:TYPE_LABEL[o.ev.type]||''});
+  for(const o of occurrences(state,from,to)){const ty=tyOf(o.ev);out.push({kind:'ev',start:o.start,end:o.end,allDay:!!o.ev.allDay,title:o.ev.title||'Untitled',cls:'k-'+ty.color+(o.ev.busy===false?' free':''),open:'ev:'+o.ev.id,sub:ty.name})}
   for(const s of plan.sessions){if(s.end<=from.getTime()||s.start>=to.getTime())continue;const t=taskById(s.taskId);if(!t)continue;
-    out.push({kind:'sess',start:new Date(s.start),end:new Date(s.end),allDay:false,title:t.title,cls:'c-'+t.cat+' sess',open:'task:'+t.id,sub:(t.cat==='dance'?'Practice':'Planned')+(s.count>1?` · ${s.idx} of ${s.count}`:''),s})}
+    out.push({kind:'sess',start:new Date(s.start),end:new Date(s.end),allDay:false,title:t.title,cls:'c-'+t.cat+' sess',open:sessOpen(s),sub:(t.cat==='dance'?'Practice':'Planned')+(s.count>1?` · ${s.idx} of ${s.count}`:''),s})}
   return out;
 }
 function piecesForDay(items,day){
@@ -797,7 +872,7 @@ function piecesForDay(items,day){
 function pieceTime(p){if(!p.s||(p.cont&&p.contEnd))return'All day';if(p.cont)return'until '+fmtTime(new Date(p.e));if(p.contEnd)return'from '+fmtTime(new Date(p.s));return fmtRange(new Date(p.s),new Date(p.e))}
 function tcol(p){if(!p.s||(p.cont&&p.contEnd))return`<div class="tcol"><b>all-day</b></div>`;if(p.cont)return`<div class="tcol"><span>until</span><b>${fmtTime(new Date(p.e))}</b></div>`;return`<div class="tcol"><b>${fmtTime(new Date(p.s))}</b><span>${p.contEnd?'→':fmtTime(new Date(p.e))}</span></div>`}
 function agendaRow(p,i){const it=p.it;
-  return `<button class="row stg ${it.cls}${it.kind==='sess'?' sessrow':''}" style="--i:${i||0}" data-open="${it.open}">${tcol(p)}<span class="bar3"></span><span class="main"><span class="t">${esc(it.kind==='sess'?shortTitle(it.title):it.title)}</span><span class="s">${esc(it.sub)}</span></span></button>`}
+  return `<button class="row stg ${it.cls}${it.kind==='sess'?' sessrow':''}" style="--i:${i||0}" data-open="${it.open}">${tcol(p)}<span class="bar3"></span><span class="main"><span class="t">${esc(it.kind==='sess'?shortTitle(it.title):it.title)}${it.kind==='sess'&&it.s.pinned?PIN:''}</span><span class="s">${esc(it.sub)}</span></span></button>`}
 
 /* ---------- nav ---------- */
 function setThumb(seg){if(!seg)return;const btns=[...seg.querySelectorAll('button')],i=btns.findIndex(b=>b.getAttribute('aria-pressed')==='true');const th=seg.querySelector('.thumb');if(!th||i<0)return;th.style.width=`calc(${100/btns.length}% - ${4/btns.length}px)`;th.style.transform=`translateX(${i*100}%)`}
@@ -809,7 +884,7 @@ function renderNav(){
       $('lsub').textContent=`${a.getDate()} – ${b.getDate()} ${MON[b.getMonth()]} ${b.getFullYear()}`;$('lsub').hidden=false}
     else{$('ltitle').innerHTML=`${MONL[anchor.getMonth()]} <span class="yr">${anchor.getFullYear()}</span>`;$('lsub').hidden=true}
   }else if(tab==='plan'){$('ltitle').textContent='Today';$('lsub').textContent=`${DOWL[now.getDay()]}, ${now.getDate()} ${MONL[now.getMonth()]}`;$('lsub').hidden=false}
-  else{$('ltitle').textContent='Insights';const a=startOfWeek(now),b=addDays(a,6);$('lsub').textContent=`This week · ${a.getDate()} – ${b.getDate()} ${MON[b.getMonth()]}`;$('lsub').hidden=false}
+  else{$('ltitle').textContent='Insights';$('lsub').textContent='How your week is shaping up';$('lsub').hidden=false}
   $('todayBtn').style.visibility=tab==='cal'?'visible':'hidden';
   document.querySelectorAll('.wideonly').forEach(b=>b.hidden=!(tab==='cal'&&wide()));
   document.querySelectorAll('[data-tab]').forEach(b=>{b.setAttribute('aria-selected',b.dataset.tab===tab?'true':'false');if(b.closest('#topTabs'))b.setAttribute('aria-pressed',b.dataset.tab===tab?'true':'false')});
@@ -820,7 +895,7 @@ function renderNav(){
 
 /* ---------- calendar ---------- */
 function weekPhone(days,per){
-  const S={...DEFAULTS,...state.settings};const span=Math.max(60,toMin(S.dayEnd)-toMin(S.dayStart));
+  const S=settingsOf(state);const span=Math.max(60,(toMin(S.dayEnd)||1440)-toMin(S.dayStart));
   const today=ymd(new Date());
   let h=`<div class="wl"><div class="strip">`;
   days.forEach((d,i)=>{let b=0,p=0;for(const x of per[i].timed){const m=x.eMin-x.sMin;if(x.it.kind==='sess')p+=m;else if(!x.it.cls.includes('free'))b+=m}
@@ -835,8 +910,8 @@ function weekPhone(days,per){
   return h+`</div>`;
 }
 function weekGrid(days,per){
-  const S={...DEFAULTS,...state.settings};const today=ymd(new Date());
-  let rs=Math.floor(toMin(S.dayStart)/60)*60,re=Math.min(1440,Math.ceil(toMin(S.dayEnd)/60)*60);
+  const S=settingsOf(state);const today=ymd(new Date());
+  let rs=Math.floor(toMin(S.dayStart)/60)*60,re=Math.min(1440,Math.ceil((toMin(S.dayEnd)||1440)/60)*60);
   for(const p of per)for(const x of p.timed)if(!x.cont&&!x.contEnd){rs=Math.min(rs,Math.floor(x.sMin/60)*60);re=Math.max(re,Math.ceil(x.eMin/60)*60)}
   const span=re-rs;
   let h=`<div class="wk"><div class="wkg"><div class="wk-r wk-h"><div></div>`;
@@ -850,6 +925,8 @@ function weekGrid(days,per){
   days.forEach((d,i)=>{
     const isT=ymd(d)===today;
     h+=`<div class="wk-c${isT?' today':''}" data-day="${ymd(d)}" data-rs="${rs}" data-re="${re}">`;
+    const[pa,pb]=pracWindow(S,d);const za=Math.max(pa,rs),zb=Math.min(pb,re);
+    if(zb>za)h+=`<div class="prz" style="top:${(za-rs)/span*100}%;height:${(zb-za)/span*100}%" title="Practice hours"></div>`;
     const ps=per[i].timed.map(x=>({...x,a:Math.max(x.sMin,rs),b:Math.min(x.eMin,re)})).filter(x=>x.b>x.a);
     let cl=[],end=-1;const clusters=[];
     for(const p of ps){if(p.a>=end&&cl.length){clusters.push(cl);cl=[]}cl.push(p);end=Math.max(end,p.b,p.a+20)}
@@ -896,7 +973,7 @@ function renderMonth(){
 }
 function selectDay(k){
   selDay=k;document.querySelectorAll('.mo-c').forEach(c=>c.classList.toggle('sel',c.dataset.sel===k));
-  const d=$('moDetail');if(d){d.innerHTML=monthDetail(monthItems);d.querySelectorAll('.stg').forEach(x=>{x.style.animation='rise .35s var(--ease) both';x.style.animationDelay=(+x.style.getPropertyValue('--i')||0)*25+'ms'})}
+  const d=$('moDetail');if(d){d.innerHTML=monthDetail(monthItems);d.querySelectorAll('.stg').forEach((x,i)=>{x.style.animation='rise .35s var(--ease) both';x.style.animationDelay=i*25+'ms'})}
 }
 
 /* ---------- plan ---------- */
@@ -907,9 +984,9 @@ function sessRow(s,i){
   const st=new Date(s.start),en=new Date(s.end);
   const ev=t.dueType==='event'?state.events.find(e=>e.id===t.eventId):null;
   const sub=[fmtRange(st,en),s.count>1?`${s.idx} of ${s.count}`:null,ev?`for ${dayName(evStart(ev))}`:null].filter(Boolean).join(' · ');
-  return `<div class="srow stg c-${t.cat}" style="--i:${i||0}" data-task="${t.id}" data-s="${s.start}" data-e="${s.end}"><div class="srow-bg"><span class="bl">Done</span><span class="br">Later</span></div><div class="srow-fg"><button class="check" data-check aria-label="Mark done">${CHECK}</button><button class="main" data-open="task:${t.id}"><span class="kick">${t.cat==='dance'?'Practise':'Work on'}</span><span class="t">${esc(shortTitle(t.title))}</span><span class="s">${esc(sub)}</span></button></div></div>`;
+  return `<div class="srow stg c-${t.cat}" style="--i:${i||0}" data-task="${t.id}" data-s="${s.start}" data-e="${s.end}"><div class="srow-bg"><span class="bl">Done</span><span class="br">Skip</span></div><div class="srow-fg"><button class="check" data-check aria-label="Mark done">${CHECK}</button><button class="main" data-open="${sessOpen(s)}"><span class="kick">${t.cat==='dance'?'Practise':'Work on'}</span><span class="t">${esc(shortTitle(t.title))}${s.pinned?PIN:''}</span><span class="s">${esc(sub)}</span></button></div></div>`;
 }
-function statusPill(t){const inf=plan.info[t.id];if(t.completed||remainingOf(t)<=0)return'<span class="pill p-any">Done</span>';const st=inf?inf.status:'any';return`<span class="pill p-${st}">${{ok:'On track',tight:'Start soon',short:'Short on time',late:'Overdue',any:'Anytime'}[st]}</span>`}
+function statusPill(t){const inf=plan.info[t.id];if(t.completed||remainingOf(t)<=0)return'<span class="pill p-ok">Done</span>';const st=inf?inf.status:'any';return`<span class="pill p-${st}">${{ok:'On track',tight:'Start soon',short:'Short on time',late:'Overdue',any:'Anytime'}[st]}</span>`}
 function taskRow(t,i){
   const inf=plan.info[t.id];const done=t.completed||remainingOf(t)<=0;
   const dl=deadlineOf(state,t);const ev=t.dueType==='event'?state.events.find(e=>e.id===t.eventId):null;
@@ -917,7 +994,7 @@ function taskRow(t,i){
   if(done)sub=`${fmtDur(t.minutes)} done`;
   else if(inf&&inf.status==='late')sub=`Deadline passed · ${fmtDur(inf.remaining)} left`;
   else if(inf&&inf.status==='short')sub=`${fmtDur(inf.shortfall)} short before ${dl?fmtDay(dl):'the deadline'}`;
-  else if(ev&&dl)sub=`${fmtDur(remainingOf(t))} left · ${ev.title} ${relDay(dl)}`;
+  else if(ev&&dl)sub=`${fmtDur(remainingOf(t))} left · ${relDay(dl)}`;
   else if(dl)sub=`${fmtDur(remainingOf(t))} left · due ${fmtDay(dl)}`;
   else sub=`${fmtDur(remainingOf(t))} · whenever you're free`;
   const pct=t.minutes?Math.min(1,(t.done||0)/t.minutes):0;
@@ -930,10 +1007,10 @@ function planHTML(compact){
   const doneMins=sum(doneToday.map(l=>l.mins)),leftMins=sum(todays.map(s=>(s.end-s.start)/MIN));
   let h='';
   if(!compact&&(state.events.some(e=>e.example)||state.tasks.some(t=>t.example)))
-    h+=`<div class="banner stg" style="--i:${i++}"><p><b>This is an example week.</b> Tap + and type something like "Rehearsal Mon 7–10pm". Practice gets planned for you.</p><button data-act="clearEx">Clear examples and start</button></div>`;
+    h+=`<div class="banner stg" style="--i:${i++}"><p><b>This is an example week.</b> Tap + and type something like "Rehearsal Mon 7–10pm". Practice gets planned inside your practice hours.</p><button data-act="clearEx">Clear examples and start</button></div>`;
   if(!compact){
     const next=todays[0];let head,sub;
-    if(next){const t=taskById(next.taskId);head=(t.cat==='dance'?'Practise ':'')+shortTitle(t.title);sub=`${inMins(next.start)[0].toUpperCase()+inMins(next.start).slice(1)} · ${fmtRange(new Date(next.start),new Date(next.end))}`}
+    if(next){const t=taskById(next.taskId);head=(t.cat==='dance'?'Practise ':'')+shortTitle(t.title);sub=`${cap1(inMins(next.start))} · ${fmtRange(new Date(next.start),new Date(next.end))}`}
     else if(doneMins){head='All done for today';sub=`${fmtDur(doneMins)} logged. Nice work.`}
     else{const up=plan.sessions[0];head='Nothing planned today';sub=up?`Next: ${dayName(new Date(up.start))}, ${fmtTime(new Date(up.start))}`:'Add a rehearsal and practice gets planned'}
     const tot=doneMins+leftMins,pct=tot?doneMins/tot:0;
@@ -948,7 +1025,7 @@ function planHTML(compact){
   if(attn.length)h+=`<div class="ghead"><h2>Needs attention</h2></div><div class="group">${attn.map(t=>taskRow(t,i++)).join('')}</div>`;
   const upto=addDays(sod,compact?4:8).getTime();
   const up=plan.sessions.filter(s=>ymd(new Date(s.start))!==today&&s.start<upto);
-  h+=`<div class="ghead"><h2>Coming up</h2><span class="touchonly">swipe right when done</span></div><div class="group">`;
+  h+=`<div class="ghead"><h2>Coming up</h2><span class="touchonly">tap to move · swipe when done</span></div><div class="group">`;
   if(!up.length)h+=`<p class="empty">Nothing planned yet.</p>`;
   let last='';
   for(const s of up){const k=ymd(new Date(s.start));if(k!==last){const dd=new Date(s.start);h+=`<div class="dayline">${dayName(dd)}${dayName(dd)===fmtDay(dd)?'':' · '+fmtDay(dd)}</div>`;last=k}h+=sessRow(s,i++)}
@@ -965,55 +1042,94 @@ function planHTML(compact){
 
 /* ---------- insights ---------- */
 function insightsHTML(){
-  const now=new Date(),ws=startOfWeek(now),we=addDays(ws,7),W0=ws.getTime(),W1=we.getTime();
-  const S={...DEFAULTS,...state.settings},span=toMin(S.dayEnd)-toMin(S.dayStart);
-  const log=state.log||[];const inW=l=>l.at>=W0&&l.at<W1;
-  const practised=sum(log.filter(l=>l.cat==='dance'&&inW(l)).map(l=>l.mins));
-  const workDone=sum(log.filter(l=>l.cat!=='dance'&&inW(l)).map(l=>l.mins));
-  const catOf=s=>(taskById(s.taskId)||{}).cat;
-  const wkS=plan.sessions.filter(s=>s.start<W1);
-  const leftDance=sum(wkS.filter(s=>catOf(s)==='dance').map(s=>(s.end-s.start)/MIN));
-  const leftWork=sum(wkS.filter(s=>catOf(s)!=='dance').map(s=>(s.end-s.start)/MIN));
-  const days=[...Array(7)].map((_,i)=>addDays(ws,i));
-  const occ=occurrences(state,ws,we).filter(o=>o.ev.busy!==false);
-  const busyDay=days.map(d=>{const a=setMin(d,toMin(S.dayStart)).getTime(),b=setMin(d,toMin(S.dayEnd)).getTime();return sum(occ.map(o=>Math.max(0,Math.min(o.end.getTime(),b)-Math.max(o.start.getTime(),a))/MIN))});
-  const planDay=days.map(d=>sum(wkS.filter(s=>ymd(new Date(s.start))===ymd(d)).map(s=>(s.end-s.start)/MIN)));
-  const doneDay=days.map(d=>sum(log.filter(l=>ymd(new Date(l.start||l.at))===ymd(d)).map(l=>l.mins)));
-  const busyTotal=sum(busyDay);
-  const freeLeft=sum(plan.free.filter(f=>f.s<W1).map(f=>(Math.min(f.e,W1)-f.s)/MIN));
-  const pd=new Set(log.filter(l=>l.cat==='dance').map(l=>ymd(new Date(l.at))));let streak=0,d=startOfDay(now);if(!pd.has(ymd(d)))d=addDays(d,-1);while(pd.has(ymd(d))){streak++;d=addDays(d,-1)}
+  const now=new Date(),N=now.getTime(),S=settingsOf(state);
+  const sod=startOfDay(now),days=[...Array(7)].map((_,i)=>addDays(sod,i)),H7=addDays(sod,7).getTime();
+  const active=state.tasks.filter(t=>!t.completed&&remainingOf(t)>0);
+  const due7=active.filter(t=>{const d=deadlineOf(state,t);return d&&d.getTime()>N&&d.getTime()<=H7});
+  const need=sum(due7.map(remainingOf));
+  const capTotal=sum(days.map(d=>plan.cap[ymd(d)]||0));
+  const shortT=active.filter(t=>['short','late'].includes(plan.info[t.id]?.status));
   let i=0,h='';
-  const pct=practised+leftDance?practised/(practised+leftDance):0;
-  h+=`<div class="ringcard stg" style="--i:${i++}"><span class="ringwrap">${ringSVG(96,11,pct)}<span class="ring-center"><span><b>${Math.round(pct*100)}%</b><small>of plan</small></span></span></span><div><h3>${fmtDur(practised)} practised</h3><p>${leftDance?`${fmtDur(leftDance)} more planned this week`:'Nothing else planned this week'}</p></div></div>`;
-  h+=`<div class="tiles" style="margin-top:10px">
-    <div class="tile stg" style="--i:${i++}"><span class="k">Work done</span><span class="v">${fmtHrs(workDone)}<small>h</small></span><span class="n">${leftWork?fmtDur(leftWork)+' still planned':'none planned'}</span></div>
-    <div class="tile stg" style="--i:${i++}"><span class="k">Free time left</span><span class="v">${fmtHrs(freeLeft)}<small>h</small></span><span class="n">after everything planned</span></div>
-    <div class="tile stg" style="--i:${i++}"><span class="k">Booked</span><span class="v">${fmtHrs(busyTotal)}<small>h</small></span><span class="n">rehearsals, classes, work</span></div>
-    <div class="tile stg" style="--i:${i++}"><span class="k">Streak</span><span class="v">${streak}<small>${streak===1?'day':'days'}</small></span><span class="n">of practice in a row</span></div></div>`;
-  const max=Math.max(span,...days.map((_,k)=>busyDay[k]+planDay[k]+doneDay[k]));
-  const td=ymd(now);
-  h+=`<div class="ghead"><h2>Your week</h2><span>hours per day</span></div><div class="chart stg" style="--i:${i++}"><div class="bars">`;
-  days.forEach((dd,k)=>{const hb=busyDay[k]/max*100,hp=planDay[k]/max*100,hd=doneDay[k]/max*100;
-    h+=`<div class="bcol" title="${DOW[dd.getDay()]}: ${fmtDur(busyDay[k])} booked, ${fmtDur(planDay[k])} planned, ${fmtDur(doneDay[k])} done">${hp?`<span class="bseg p" style="height:${hp}%;--i:${k}"></span>`:''}${hd?`<span class="bseg d" style="height:${hd}%;--i:${k}"></span>`:''}${hb?`<span class="bseg b" style="height:${hb}%;--i:${k}"></span>`:''}</div>`});
-  h+=`</div><div class="blabels">${days.map(dd=>`<span class="${ymd(dd)===td?'td':''}">${DOW[dd.getDay()][0]}</span>`).join('')}</div><div class="legend"><span><i style="background:var(--fill-2)"></i>Booked</span><span><i style="background:var(--grad)"></i>Planned</span><span><i style="background:var(--ok)"></i>Done</span></div></div>`;
-  const ready=state.tasks.filter(t=>t.auto&&t.dueType==='event').map(t=>({t,d:deadlineOf(state,t)})).filter(x=>x.d&&x.d>now&&x.d<addDays(now,28)).sort((a,b)=>a.d-b.d);
+
+  // 1. The verdict on the next 7 days
+  let word,cls,text;
+  const ratio=capTotal?need/capTotal:(need?2:0);
+  if(!need&&!shortT.length){word='All clear';cls='v-ok';text=`Nothing is due in the next 7 days. You have ${fmtHrs(capTotal)}h of free time, and it's all yours.`}
+  else if(shortT.length||ratio>=1){word='Overbooked';cls='v-over';text=shortT.length?`${shortT.length===1?esc(shortT[0].title)+" doesn't":shortT.length+" things don't"} fit before ${shortT.length===1?'its':'their'} deadline. Free up some time or push something back.`:`You need ${fmtDur(need)} before next ${DOWL[addDays(sod,7).getDay()]} but only have ${fmtDur(capTotal)} free.`}
+  else if(ratio>=.7){word='Tight';cls='v-tight';text=`You need ${fmtDur(need)} for practice and deadlines, and you have ${fmtDur(capTotal)} free. Most of your spare time is already spoken for, so think twice before saying yes to more.`}
+  else if(ratio>=.35){word='Manageable';cls='v-mid';text=`You need ${fmtDur(need)} for practice and deadlines, and you have ${fmtDur(capTotal)} free. There's room, as long as you stick to the plan.`}
+  else{word='Plenty of room';cls='v-ok';text=`You need ${fmtDur(need)} for practice and deadlines, and you have ${fmtDur(capTotal)} free. Lots of breathing space this week.`}
+  h+=`<div class="verdict ${cls} stg" style="--i:${i++}"><span class="vk">Next 7 days</span><h3>${word}</h3><p>${text}</p>${need?`<div class="capbar" role="img" aria-label="${fmtDur(need)} needed of ${fmtDur(capTotal)} free"><i style="width:${Math.min(100,capTotal?need/capTotal*100:100)}%"></i></div><div class="caplab"><span><b>${fmtDur(need)}</b> needed</span><span><b>${fmtDur(capTotal)}</b> free</span></div>`:''}</div>`;
+
+  // 2. Day by day: how full each day is
+  const rowsD=days.map(d=>{const k=ymd(d);const[a,b]=dayBounds(S,d);const span=(b-a)/MIN;
+    const planned=sum(plan.sessions.filter(s=>s.start<b&&s.end>a).map(s=>(Math.min(s.end,b)-Math.max(s.start,a))/MIN));
+    const free=Math.max(0,(plan.cap[k]||0)-sum(plan.sessions.filter(s=>s.start<b&&s.end>Math.max(a,N)).map(s=>(Math.min(s.end,b)-Math.max(s.start,a,N))/MIN)));
+    const taken=Math.max(0,span-free-planned);
+    const over=k===ymd(now)&&b-Math.max(a,N)<60*MIN;
+    const lv=over?'done':free<60?'packed':free<180?'busy':(taken<30&&!planned)?'free':'light';
+    return{d,k,span,planned,free,taken,lv}});
+  h+=`<div class="ghead"><h2>Day by day</h2><span>between ${fmtTime(setMin(sod,toMin(S.dayStart)))} and ${fmtTime(setMin(sod,toMin(S.dayEnd)||1439))}</span></div><div class="group stg" style="--i:${i++}">`;
+  rowsD.forEach((r,j)=>{const isT=j===0;
+    h+=`<button class="drow${isT?' today':''}" data-goto="${r.k}"><span class="dl"><b>${isT?'Today':DOW[r.d.getDay()]}</b><span>${r.d.getDate()} ${MON[r.d.getMonth()]}</span></span><span class="dbar"><i class="b" style="width:${r.taken/r.span*100}%;animation-delay:${j*40}ms"></i><i class="p" style="width:${r.planned/r.span*100}%;animation-delay:${j*40}ms"></i></span><span class="dr"><b class="lv-${r.lv}">${{done:"Day's done",packed:'Packed',busy:'Busy',light:'Light',free:'Free'}[r.lv]}</b>${r.lv==='done'?'':`<span>${fmtDur(Math.round(r.free/15)*15)} free</span>`}</span></button>`});
+  h+=`<div class="legend"><span><i style="background:var(--label-3)"></i>Booked or gone</span><span><i style="background:var(--grad2)"></i>Practice & work</span><span><i style="background:var(--fill);outline:1px solid var(--fill-2)"></i>Free</span></div></div>`;
+  const bestDay=rowsD.slice(rowsD[0].free>=120?0:1).sort((a,b)=>b.free-a.free)[0];
+  const packed=rowsD.filter(r=>r.lv==='packed');
+  const dline=[];
+  if(bestDay&&bestDay.free>=120)dline.push(`${bestDay===rowsD[0]?'Today':DOWL[bestDay.d.getDay()]} has the most free time (${fmtDur(Math.round(bestDay.free/15)*15)}). Best day to get ahead or rest.`);
+  const pn=packed.map(r=>r===rowsD[0]?'today':DOWL[r.d.getDay()]);
+  if(pn.length)dline.push(`${cap1(pn.length>1?pn.slice(0,-1).join(', ')+' and '+pn[pn.length-1]:pn[0])} ${pn.length===1?'is':'are'} fully booked, so nothing extra goes there.`);
+  if(dline.length)h+=`<p class="gfoot">${dline.join(' ')}</p>`;
+
+  // 3. Readiness for rehearsals and shows
+  const ready=state.tasks.filter(t=>t.auto&&t.dueType==='event').map(t=>({t,ev:state.events.find(e=>e.id===t.eventId)})).filter(x=>x.ev).map(x=>({...x,d:evStart(x.ev)})).filter(x=>x.d>now&&x.d<addDays(now,21)).sort((a,b)=>a.d-b.d);
   if(ready.length){
-    h+=`<div class="ghead"><h2>Readiness</h2><span>shows & rehearsals</span></div><div class="group">`;
-    ready.forEach(({t,d})=>{const ev=state.events.find(e=>e.id===t.eventId);const p=t.minutes?Math.min(1,(t.done||0)/t.minutes):0;
-      h+=`<button class="row stg" style="--i:${i++}" data-open="ev:${ev.id}"><span class="main"><span style="display:flex;justify-content:space-between;gap:8px;align-items:baseline"><span class="t">${esc(ev.title)}</span><span class="s" style="white-space:nowrap">${relDay(d)}</span></span><span class="prog"><i style="width:${p*100}%"></i></span><span style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px"><span class="s">${fmtDur(t.done||0)} of ${fmtDur(t.minutes)} practised</span>${statusPill(t)}</span></span></button>`});
+    h+=`<div class="ghead"><h2>Are you ready?</h2><span>next 3 weeks</span></div><div class="group">`;
+    ready.forEach(({t,ev,d})=>{const inf=plan.info[t.id]||{sessions:[]},left=remainingOf(t),done=Math.min(t.done||0,t.minutes);let pill,msg;
+      const nx=inf.sessions&&inf.sessions[0];
+      if(t.completed||left<=0){pill='<span class="pill p-ok">Ready</span>';msg=`All ${fmtDur(t.minutes)} practised. You're set.`}
+      else if(inf.status==='short'){pill='<span class="pill p-short">Not enough time</span>';msg=`Only ${fmtDur(Math.max(0,left-inf.shortfall))} of free practice time before it, so you're ${fmtDur(inf.shortfall)} short. Free up an evening, widen your practice hours, or lower the practice amount.`}
+      else if(inf.status==='tight'){pill='<span class="pill p-tight">Start now</span>';msg=`${fmtDur(left)} still to go with little time left.${nx?` Next: ${slotLabel(nx.start)}.`:''}`}
+      else{pill='<span class="pill p-ok">On track</span>';msg=`${done?fmtDur(done)+' done, ':''}${fmtDur(left)} to go.${nx?` ${inf.sessions.length} ${inf.sessions.length===1?'session':'sessions'} booked, next ${slotLabel(nx.start)}.`:''}`}
+      h+=`<button class="row stg" style="--i:${i++}" data-open="ev:${ev.id}"><span class="main"><span class="rtop"><span class="t">${esc(ev.title)}</span>${pill}</span><span class="s">${cap1(relDay(d))} · ${fmtWhen(d)}</span><span class="prog"><i style="width:${t.minutes?Math.min(100,done/t.minutes*100):0}%"></i></span><span class="s" style="color:var(--label)">${esc(msg)}</span></span></button>`});
     h+=`</div>`;
   }
-  const notes=[];
-  const fut=days.map((dd,k)=>({dd,v:busyDay[k]+planDay[k]})).filter(x=>startOfDay(x.dd)>=startOfDay(now)).sort((a,b)=>b.v-a.v)[0];
-  if(fut&&fut.v>=300)notes.push(`${DOWL[fut.dd.getDay()]} is your fullest day left, with ${fmtDur(fut.v)} booked. Practice stays off days with 7+ hours of commitments.`);
-  if(plan.learned!=null)notes.push(`You usually practise around ${fmtTime(setMin(now,plan.learned))}, so new sessions go there.`);
-  else notes.push(`New practice goes around ${fmtTime(setMin(now,toMin(S.practiceAt)))} for now. Tick sessions off and Chereography learns when you really practise.`);
-  const short=state.tasks.filter(t=>plan.info[t.id]?.status==='short');
-  if(short.length){const inf=plan.info[short[0].id];notes.push(`${short[0].title} is ${fmtDur(inf.shortfall)} short. Something has to move before ${fmtDay(new Date(inf.deadline))}.`)}
-  const nextShow=occurrences(state,now,addDays(now,60)).filter(o=>o.ev.type==='performance').sort((a,b)=>a.start-b.start)[0];
-  if(nextShow)notes.push(`${nextShow.ev.title} is ${relDay(nextShow.start)}.`);
-  h+=`<div class="ghead"><h2>Notes</h2></div><div class="group">${notes.map(n=>`<div class="row stg" style="--i:${i++}"><span class="note"><span class="ic">${SPARK}</span><span class="nt">${esc(n)}</span></span></div>`).join('')}</div>`;
-  h+=`<div class="group" style="margin-top:24px"><button class="row" data-act="settings"><span class="main"><span class="t">Settings</span></span><span class="end">${syncLabel()}</span>${CHEV}</button></div>`;
+
+  // 4. Deadlines and when to start
+  const dls=active.filter(t=>!t.auto).map(t=>({t,d:deadlineOf(state,t)})).filter(x=>x.d&&x.d<addDays(now,14)).sort((a,b)=>a.d-b.d);
+  if(dls.length){
+    h+=`<div class="ghead"><h2>Deadlines</h2><span>next 2 weeks</span></div><div class="group">`;
+    dls.forEach(({t,d})=>{const inf=plan.info[t.id]||{};let msg;
+      if(inf.status==='late')msg=`Was due ${fmtWhen(d)}. Mark it done or change the date.`;
+      else if(inf.status==='short')msg=`Due ${fmtWhen(d)}. Only ${fmtDur(Math.max(0,remainingOf(t)-inf.shortfall))} of free time before then.`;
+      else msg=`Due ${fmtWhen(d)}.${inf.lastChance?` Start by ${slotLabel(inf.lastChance)} at the latest.`:''}`;
+      h+=`<button class="row stg c-${t.cat}" style="--i:${i++}" data-open="task:${t.id}"><span class="main"><span class="rtop"><span class="t">${esc(t.title)}</span>${statusPill(t)}</span><span class="s">${fmtDur(remainingOf(t))} of work · ${esc(msg)}</span></span></button>`});
+    h+=`</div>`;
+  }
+
+  // 5. Looking back
+  const log=state.log||[],ws=startOfWeek(now).getTime(),lw=addDays(startOfWeek(now),-7).getTime();
+  const pThis=sum(log.filter(l=>l.cat==='dance'&&l.at>=ws).map(l=>l.mins)),pLast=sum(log.filter(l=>l.cat==='dance'&&l.at>=lw&&l.at<ws).map(l=>l.mins));
+  const daysThis=new Set(log.filter(l=>l.cat==='dance'&&l.at>=ws).map(l=>ymd(new Date(l.at)))).size;
+  const wThis=sum(log.filter(l=>l.cat!=='dance'&&l.at>=ws).map(l=>l.mins));
+  let back;
+  if(!pThis&&!pLast)back=`No practice logged yet. Tick sessions off as you finish them and your progress shows up here.`;
+  else{const diff=pThis-pLast;back=`You've practised ${fmtDur(pThis)} this week${daysThis?` over ${daysThis} ${daysThis===1?'day':'days'}`:''}. `+(pLast?(diff>=0?`That's ${diff?fmtDur(diff)+' more than':'the same as'} last week.`:`Last week you did ${fmtDur(pLast)}, so ${fmtDur(-diff)} to go to match it.`):'')}
+  const mx=Math.max(pThis,pLast,1);
+  h+=`<div class="ghead"><h2>Looking back</h2><span>practice</span></div><div class="group stg" style="--i:${i++};padding:12px 0 10px"><p style="margin:0 16px 10px;font-size:15px;line-height:1.42">${esc(back)}${wThis?` Plus ${fmtDur(wThis)} of work done.`:''}</p><div class="cmp"><span>This week</span><span class="tr"><i style="width:${pThis/mx*100}%"></i></span><b>${fmtDur(pThis)}</b></div><div class="cmp" style="margin-top:6px"><span>Last week</span><span class="tr"><i class="ls" style="width:${pLast/mx*100}%"></i></span><b>${fmtDur(pLast)}</b></div></div>`;
+
+  // 6. Heads-up tips
+  const tips=[];
+  const lastP=log.filter(l=>l.cat==='dance').sort((a,b)=>b.at-a.at)[0];
+  const nextReady=ready.find(x=>!x.t.completed&&remainingOf(x.t)>0&&x.d<addDays(now,7));
+  if(nextReady&&lastP){const gap=dayDiff(new Date(lastP.at))*-1;if(gap>=3)tips.push(`It's been ${gap} days since you last practised, and ${nextReady.ev.title} is ${relDay(nextReady.d)}.`)}
+  const free7=plan.free.filter(f=>f.s<H7);const evBlocks=intersect(free7.map(f=>[f.s,f.e]),plan.prac).sort((a,b)=>(b[1]-b[0])-(a[1]-a[0]));
+  const open=evBlocks[0];
+  if(open&&open[1]-open[0]>=150*MIN){const dt=active.find(t=>t.cat==='dance');tips.push(`${dayName(new Date(open[0]))} ${fmtRange(new Date(open[0]),new Date(open[1]))} is wide open in your practice hours.${dt?` A good time to get ahead on ${shortTitle(dt.title)}.`:''}`)}
+  const moved=state.tasks.reduce((a,t)=>a+(t.skips||[]).length,0);
+  if(moved>=3)tips.push(`You've skipped ${moved} sessions recently. If the times keep not working, change your practice hours in Settings.`);
+  if(plan.learned!=null)tips.push(`You usually practise around ${fmtTime(setMin(sod,plan.learned))}, so new sessions are booked then.`);
+  if(tips.length)h+=`<div class="ghead"><h2>Heads up</h2></div><div class="group">${tips.slice(0,3).map(n=>`<div class="row stg" style="--i:${i++}"><span class="note"><span class="ic">${SPARK}</span><span class="nt">${esc(n)}</span></span></div>`).join('')}</div>`;
   return h;
 }
 
@@ -1045,14 +1161,19 @@ function toast(msg,undo){$('toastMsg').textContent=msg;$('toastUndo').hidden=!un
 $('toastUndo').onclick=()=>{if(!undoSnap)return;state=normalize(JSON.parse(undoSnap));undoSnap=null;$('toast').classList.remove('on');commit()};
 
 /* ---------- persistence ---------- */
-function normalize(s){s=s&&typeof s==='object'?s:{};return{version:2,settings:{...DEFAULTS,...(s.settings||{})},events:Array.isArray(s.events)?s.events:[],tasks:Array.isArray(s.tasks)?s.tasks:[],log:Array.isArray(s.log)?s.log:[]}}
+function normalize(s){
+  s=s&&typeof s==='object'?s:{};
+  const st={version:3,settings:{...DEFAULTS,...(s.settings||{})},events:Array.isArray(s.events)?s.events:[],tasks:Array.isArray(s.tasks)?s.tasks:[],log:Array.isArray(s.log)?s.log:[]};
+  if(!st.settings.v){if(st.settings.dayStart==='08:00'&&st.settings.dayEnd==='22:30'){st.settings.dayStart=DEFAULTS.dayStart;st.settings.dayEnd=DEFAULTS.dayEnd}delete st.settings.practiceAt;st.settings.v=3}
+  if(!Array.isArray(st.settings.types)||!st.settings.types.length)st.settings.types=JSON.parse(JSON.stringify(DEFAULT_TYPES));
+  return tidy(st);
+}
 const snapshot=()=>JSON.stringify(state);
 let syncState='local';
 function syncLabel(){return{local:'On this device',ok:'Synced',saving:'Saving…',offline:'Offline',error:'Not syncing',nostore:'Not saved'}[syncState]||''}
 function setSync(k){syncState=k}
 function commit(msg,undo){
-  const now=Date.now();for(const t of state.tasks)if(t.skips)t.skips=t.skips.filter(s=>s[1]>now);
-  if(state.log.length>400)state.log=state.log.slice(-400);
+  tidy(state);if(state.log.length>400)state.log=state.log.slice(-400);
   render();persist();if(msg)toast(msg,undo)}
 function persist(){if(mode==='local'){try{localStorage.setItem(LS_KEY,JSON.stringify(state));setSync('local')}catch(e){setSync('nostore')}}else cloudSave()}
 
@@ -1098,8 +1219,10 @@ $('auReset').onclick=async()=>{const em=$('auEmail').value.trim(),er=$('auErr');
 /* ---------- sheets ---------- */
 let sheetOpen=null,sheetCtx={};
 function openSheet(kind,html,ctx){
+  const swapping=!!sheetOpen;
   sheetOpen=kind;sheetCtx=ctx||{};const sh=$('sheet'),sc=$('scrim');
   sh.style.transform='';sh.innerHTML=`<div class="grab" aria-hidden="true"></div>${html}`;sh.hidden=false;sc.hidden=false;
+  if(swapping){const b=sh.querySelector('.sh-body');if(b)b.classList.add('swap')}
   requestAnimationFrame(()=>requestAnimationFrame(()=>{sh.classList.add('on');sc.classList.add('on')}));
   bindSheet(kind);
 }
@@ -1107,50 +1230,59 @@ function closeSheet(){const sh=$('sheet'),sc=$('scrim');if(!sheetOpen)return;she
   setTimeout(()=>{if(!sheetOpen){sh.hidden=true;sc.hidden=true;sh.innerHTML=''}},400)}
 $('scrim').onclick=closeSheet;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sheetOpen)closeSheet()});
-function head(title,saveLabel,disabled){return`<div class="sh-head"><button class="txtbtn" data-sh="cancel">Cancel</button><h2 id="shTitle">${esc(title)}</h2><button class="txtbtn strong" data-sh="save" ${disabled?'disabled':''}>${esc(saveLabel)}</button></div>`}
+function head(title,saveLabel,disabled,cancelLabel){return`<div class="sh-head">${cancelLabel===''?'<span></span>':`<button class="txtbtn" data-sh="cancel">${esc(cancelLabel||'Cancel')}</button>`}<h2 id="shTitle">${esc(title)}</h2><button class="txtbtn strong" data-sh="save" ${disabled?'disabled':''}>${esc(saveLabel)}</button></div>`}
 function stepperHTML(id,val,min,max){return`<div class="stepper" id="${id}" data-val="${val}" data-min="${min}" data-max="${max}"><button type="button" data-d="-1" aria-label="Less">−</button><output>${val?fmtDur(val):'0m'}</output><button type="button" data-d="1" aria-label="More">+</button></div>`}
 const stepVal=id=>+$(id).dataset.val;
 function setStep(id,v){const st=$(id);st.dataset.val=v;st.querySelector('output').textContent=v?fmtDur(v):'0m'}
 document.addEventListener('click',e=>{const b=e.target.closest('.stepper button');if(!b)return;const st=b.parentElement;let v=+st.dataset.val;const d=+b.dataset.d;const step=(d>0?v:v-1)<60?15:30;v=Math.max(+st.dataset.min,Math.min(+st.dataset.max,v+d*step));setStep(st.id,v);st.dispatchEvent(new Event('change',{bubbles:true}))});
 const sw=(id,on)=>`<label class="switch"><input type="checkbox" id="${id}" ${on?'checked':''}><span></span></label>`;
+const typeOptions=sel=>typesOf(state).map(t=>`<option value="${t.id}" ${t.id===sel?'selected':''}>${esc(t.name)}</option>`).join('');
 
 /* Quick add */
 const EXAMPLES=['Rehearsal Sat 2–5pm','Showcase 28 Nov 8pm','Edit reel 2h by Fri','Ballet class every Tue 7:30pm','Learn combo 45m'];
 function openQuick(){
-  openSheet('quick',head('New','Add',true)+`<div class="sh-body"><div class="qbox"><textarea class="fta" id="qText" rows="2" placeholder="Rehearsal Mon 7–10pm" enterkeyhint="done" autocomplete="off" aria-label="What's coming up"></textarea></div><div id="qPrev" aria-live="polite"></div><div id="qHelp"><p class="hint" style="margin-bottom:10px">Type it like a text. Rehearsals and shows get practice planned automatically. For work, add how long and when it's due.</p><div class="chips">${EXAMPLES.map(x=>`<button class="chip" data-ex="${esc(x)}">${esc(x)}</button>`).join('')}</div></div><div class="links"><button class="txtbtn" data-new="event">Event form</button><button class="txtbtn" data-new="task">To-do form</button></div></div>`);
+  openSheet('quick',head('New','Add',true)+`<div class="sh-body"><div class="qbox"><textarea class="fta" id="qText" rows="2" placeholder="Rehearsal Mon 7–10pm" enterkeyhint="done" autocomplete="off" aria-label="What's coming up"></textarea></div><div id="qPrev" aria-live="polite"></div><div id="qHelp"><p class="hint" style="margin-bottom:10px">Type it like a text. Rehearsals and shows get practice planned inside your practice hours. For work, add how long and when it's due.</p><div class="chips">${EXAMPLES.map(x=>`<button class="chip" data-ex="${esc(x)}">${esc(x)}</button>`).join('')}</div></div><div class="links"><button class="txtbtn" data-new="event">Event form</button><button class="txtbtn" data-new="task">To-do form</button></div></div>`);
   setTimeout(()=>$('qText')&&$('qText').focus(),wide()?60:420);
 }
-function quickPreview(){
-  const q=parseQuick($('qText').value,new Date(),state);sheetCtx.q=q;
-  document.querySelector('[data-sh="save"]').disabled=!q;$('qHelp').hidden=!!q;
-  if(!q){$('qPrev').innerHTML='';return}
-  let h;
-  if(q.kind==='event'){
-    const s=q.allDay?parseYMD(q.start):parseLocal(q.start),e=q.allDay?parseYMD(q.end):parseLocal(q.end);
-    const dl=dayName(s)+(dayDiff(s)>=2&&dayDiff(s)<7?` ${s.getDate()} ${MON[s.getMonth()]}`:'');
-    const when=q.allDay?(q.start===q.end?`${dl} · all day`:`${fmtDay(s)} – ${fmtDay(e)}`):(ymd(s)===ymd(e)?`${dl} · ${fmtRange(s,e)}`:`${fmtWhen(s)} → ${fmtWhen(e)}`);
-    const prep=q.repeat==='weekly'?0:autoPrep(q.type,q.title);
-    h=`<div class="preview t-${q.type}"><span class="bar3"></span><div class="main"><span class="t">${esc(q.title)}</span><span class="s">${esc(when)}${q.repeat==='weekly'?' · every week':''}</span><span class="s">${TYPE_LABEL[q.type]}</span>${prep?`<span class="smart">${SPARK}<span>${fmtDur(prep)} of practice gets planned before it</span></span>`:''}</div></div>`;
-  }else{
-    const d=q.due?parseLocal(q.due):null;
-    const due=q.dueType==='event'?`before ${q.eventTitle}`:d?`by ${fmtWhen(d)}`:'no deadline';
-    h=`<div class="preview c-${q.cat}"><span class="bar3"></span><div class="main"><span class="t">${esc(q.title)}</span><span class="s">To-do · ${fmtDur(q.minutes)} · ${esc(due)}</span><span class="smart">${SPARK}<span>${q.dueType==='none'?'Gets booked into your next free time':'Gets booked into free time before it’s due'}</span></span></div></div>`;
-  }
-  $('qPrev').innerHTML=h+`<p class="hint" style="margin-top:10px">Not quite right? <button class="txtbtn" style="font-size:13px;padding:0" data-qedit>Edit details</button></p>`;
-}
+function prepTask(ev,mins,sess){sess=sess||60;return{id:uid(),title:'Practise for '+ev.title,cat:'dance',minutes:mins,done:0,dueType:'event',due:'',eventId:ev.id,notBefore:'',split:mins>sess,session:sess,notes:'',completed:false,auto:true,created:Date.now(),skips:[],pins:[]}}
 function draftFromQuick(q){
   if(q.kind==='event')return{id:null,title:q.title,type:q.type,allDay:q.allDay,start:q.start,end:q.end,repeat:q.repeat,until:'',busy:q.busy,notes:''};
   return{id:null,title:q.title,cat:q.cat,minutes:q.minutes,dueType:q.dueType,due:q.due,eventId:q.eventId,notBefore:q.notBefore,split:q.split,session:q.session,notes:'',done:0};
 }
-function prepTask(ev,mins){return{id:uid(),title:'Practise for '+ev.title,cat:'dance',minutes:mins,done:0,dueType:'event',due:'',eventId:ev.id,notBefore:'',split:mins>sessFor(mins),session:sessFor(mins),notes:'',completed:false,auto:true,created:Date.now(),skips:[]}}
+/* Builds the item without saving it, so the preview can show the real booked times. */
+function buildFromQuick(q){
+  if(q.kind==='event'){const ev={...draftFromQuick(q),id:uid()};const ty=typeById(state,q.type);const prep=q.repeat==='weekly'?0:(ty.prep||0);return{ev,task:prep?prepTask(ev,prep,ty.sess):null}}
+  return{task:{...draftFromQuick(q),id:uid(),completed:false,auto:false,created:Date.now(),skips:[],pins:[]}};
+}
+function dryRun(b){if(!b.task)return null;const st=JSON.parse(JSON.stringify(state));if(b.ev)st.events.push(b.ev);st.tasks.push(b.task);return buildPlan(st,new Date()).info[b.task.id]}
+function quickPreview(){
+  const q=parseQuick($('qText').value,new Date(),state);sheetCtx.q=q;
+  document.querySelector('[data-sh="save"]').disabled=!q;$('qHelp').hidden=!!q;
+  if(!q){$('qPrev').innerHTML='';return}
+  const b=buildFromQuick(q);sheetCtx.b=b;const inf=dryRun(b);
+  const slots=inf&&inf.sessions.length?inf.sessions.map(s=>slotLabel(s.start)).join(', '):'';
+  let h;
+  if(q.kind==='event'){
+    const ty=typeById(state,q.type);
+    const s=q.allDay?parseYMD(q.start):parseLocal(q.start),e=q.allDay?parseYMD(q.end):parseLocal(q.end);
+    const dl=dayName(s)+(dayDiff(s)>=2&&dayDiff(s)<7?` ${s.getDate()} ${MON[s.getMonth()]}`:'');
+    const when=q.allDay?(q.start===q.end?`${dl} · all day`:`${fmtDay(s)} – ${fmtDay(e)}`):(ymd(s)===ymd(e)?`${dl} · ${fmtRange(s,e)}`:`${fmtWhen(s)} → ${fmtWhen(e)}`);
+    let smart='';
+    if(b.task)smart=inf&&inf.shortfall>0?`<span class="smart warn">${SPARK}<span>${fmtDur(b.task.minutes)} of practice, but only ${fmtDur(b.task.minutes-inf.shortfall)} fits in your practice hours before it.</span></span>`:`<span class="smart">${SPARK}<span>${fmtDur(b.task.minutes)} of practice booked: ${esc(slots)}</span></span>`;
+    h=`<div class="preview k-${ty.color}"><span class="bar3"></span><div class="main"><span class="t">${esc(q.title)}</span><span class="s">${esc(when)}${q.repeat==='weekly'?' · every week':''}</span><span class="s">${esc(ty.name)}</span>${smart}</div></div>`;
+  }else{
+    const d=q.due?parseLocal(q.due):null;
+    const due=q.dueType==='event'?`before ${q.eventTitle}`:d?`by ${fmtWhen(d)}`:'no deadline';
+    h=`<div class="preview c-${q.cat}"><span class="bar3"></span><div class="main"><span class="t">${esc(q.title)}</span><span class="s">To-do · ${fmtDur(q.minutes)} · ${esc(due)}</span>${slots?`<span class="smart">${SPARK}<span>Booked: ${esc(slots)}</span></span>`:`<span class="smart warn">${SPARK}<span>No free time for it yet</span></span>`}</div></div>`;
+  }
+  $('qPrev').innerHTML=h+`<p class="hint" style="margin-top:10px">Not quite right? <button class="txtbtn" style="font-size:13px;padding:0" data-qedit>Edit details</button></p>`;
+}
 function saveQuick(){
-  const q=sheetCtx.q;if(!q)return;const snap=snapshot();let msg;
-  if(q.kind==='event'){const ev={...draftFromQuick(q),id:uid()};state.events.push(ev);
-    const prep=q.repeat==='weekly'?0:autoPrep(q.type,q.title);if(prep)state.tasks.push(prepTask(ev,prep));
-    plan=buildPlan(state,new Date());const t=state.tasks.find(x=>x.auto&&x.eventId===ev.id);const n=t?(plan.info[t.id]?.sessions.length||0):0;
-    msg=t?(n?`Added. ${n} practice ${n===1?'session':'sessions'} booked.`:'Added. No free time to practise before it.'):'Event added'}
-  else{const t={...draftFromQuick(q),id:uid(),completed:false,auto:false,created:Date.now(),skips:[]};state.tasks.push(t);
-    plan=buildPlan(state,new Date());const s=plan.info[t.id]?.sessions[0];msg=s?`Added. First slot: ${dayName(new Date(s.start))}, ${fmtTime(new Date(s.start))}`:"Added, but there's no free time for it yet"}
+  const q=sheetCtx.q,b=sheetCtx.b;if(!q||!b)return;const snap=snapshot();let msg;
+  if(b.ev)state.events.push(b.ev);if(b.task)state.tasks.push(b.task);
+  plan=buildPlan(state,new Date());const inf=b.task&&plan.info[b.task.id];
+  if(q.kind==='event')msg=b.task?(inf&&inf.sessions.length?`Added. ${inf.sessions.length} practice ${inf.sessions.length===1?'session':'sessions'} booked.`:'Added. No practice time fits before it.'):'Event added';
+  else msg=inf&&inf.sessions[0]?`Added. First slot: ${slotLabel(inf.sessions[0].start)}`:"Added, but there's no free time for it yet";
   closeSheet();commit(msg,snap);
 }
 
@@ -1158,12 +1290,11 @@ function saveQuick(){
 function openEvent(id,draft){
   const ev=id?state.events.find(e=>e.id===id):null;
   const tom=addDays(startOfDay(new Date()),1);
-  const d=ev?{...ev}:(draft||{title:'',type:'rehearsal',allDay:false,start:localStr(setHM(tom,19,0)),end:localStr(setHM(tom,21,0)),repeat:'none',until:'',busy:true,notes:''});
+  const d=ev?{...ev}:(draft||{title:'',type:typesOf(state)[0].id,allDay:false,start:localStr(setHM(tom,19,0)),end:localStr(setHM(tom,21,0)),repeat:'none',until:'',busy:true,notes:''});
+  const ty=typeById(state,d.type);
   const linked=ev&&state.tasks.find(t=>t.auto&&t.eventId===ev.id);
   const s=d.allDay?parseYMD(d.start):parseLocal(d.start),e=d.allDay?parseYMD(d.end||d.start):parseLocal(d.end);
-  const auto=autoPrep(d.type,d.title);
-  const prepOn=ev?!!linked:auto>0,prepMin=linked?linked.minutes:(auto||120);
-  const typeOpts=Object.entries(TYPE_LABEL).map(([k,v])=>`<option value="${k}" ${d.type===k?'selected':''}>${v}</option>`).join('');
+  const prepOn=ev?!!linked:(ty.prep>0&&d.repeat!=='weekly'),prepMin=linked?linked.minutes:(ty.prep||120),prepSess=linked?(linked.session||60):(ty.sess||60);
   openSheet('event',head(ev?'Edit Event':'New Event',ev?'Done':'Add')+`<div class="sh-body">
     <div class="fg"><input class="fin" id="fTitle" placeholder="Title" value="${esc(d.title)}" autocomplete="off" aria-label="Title"></div>
     <div class="fg">
@@ -1174,12 +1305,13 @@ function openEvent(id,draft){
       <div class="fr" id="fUntilRow"><span>End Repeat</span><input class="pill-in" type="date" id="fUntil" value="${d.until||''}" aria-label="End repeat"></div>
     </div>
     <div class="fg">
-      <div class="fr"><span>Type</span><select class="fsel" id="fType" aria-label="Type">${typeOpts}</select></div>
+      <div class="fr"><span class="lbl"><span class="dot k-${ty.color}" id="fDot"></span>Type</span><select class="fsel" id="fType" aria-label="Type">${typeOptions(ty.id)}</select></div>
       <div class="fr"><span>Show As</span><select class="fsel" id="fBusy" aria-label="Show as"><option value="1">Busy</option><option value="0" ${d.busy===false?'selected':''}>Free</option></select></div>
     </div>
     <div class="fg" id="fPrepG">
-      <div class="fr"><span>Plan practice for me</span>${sw('fPrep',prepOn)}</div>
-      <div class="fr" id="fPrepRow"><span>Practice</span>${stepperHTML('fPrepMin',prepMin,15,1200)}</div>
+      <div class="fr"><span>Plan practice for this</span>${sw('fPrep',prepOn)}</div>
+      <div class="fr fPrepRow"><span>Total practice</span>${stepperHTML('fPrepMin',prepMin,15,1200)}</div>
+      <div class="fr fPrepRow"><span>Per session</span>${stepperHTML('fPrepSess',prepSess,30,240)}</div>
     </div>
     <p class="ffoot" id="fPrepNote"></p>
     <div class="fg"><textarea class="fta" id="fNotes" placeholder="Notes" rows="2" aria-label="Notes">${esc(d.notes||'')}</textarea></div>
@@ -1191,11 +1323,11 @@ function openEvent(id,draft){
 function syncEventSheet(){
   const all=$('fAll').checked;document.querySelectorAll('#sheet .tmw').forEach(x=>x.hidden=all);
   const rep=$('fRep').value==='weekly';$('fUntilRow').hidden=!rep;$('fPrepG').hidden=rep;
-  $('fPrepRow').hidden=!$('fPrep').checked;
+  document.querySelectorAll('#sheet .fPrepRow').forEach(x=>x.hidden=!$('fPrep').checked);
   let note='';
   if(rep)note='Practice planning is for one-off events. For a weekly class, add a to-do with a deadline.';
   else if($('fPrep').checked){const lk=sheetCtx.id&&state.tasks.find(t=>t.auto&&t.eventId===sheetCtx.id);const inf=lk&&plan.info[lk.id];
-    note=inf&&inf.sessions.length?`Booked: ${inf.sessions.map(s=>`${DOW[new Date(s.start).getDay()]} ${fmtTime(new Date(s.start))}`).join(', ')}. Sessions avoid your busiest days.`:'Sessions get booked into free evenings before it, avoiding your busiest days.'}
+    note=inf&&inf.sessions.length?`Booked: ${inf.sessions.map(s=>slotLabel(s.start)).join(', ')}. Tap a session in Plan to move it.`:'Sessions go inside your practice hours before the event, avoiding your busiest days.'}
   $('fPrepNote').textContent=note;$('fPrepNote').hidden=!note;
 }
 function saveEvent(){
@@ -1209,37 +1341,93 @@ function saveEvent(){
   let ev=sheetCtx.id&&state.events.find(e=>e.id===sheetCtx.id);
   if(ev){Object.assign(ev,data);delete ev.example}else{ev={id:uid(),...data};state.events.push(ev)}
   const idx=state.tasks.findIndex(t=>t.auto&&t.eventId===ev.id);
-  const on=$('fPrep').checked&&repeat!=='weekly',mins=stepVal('fPrepMin');
-  if(on){if(idx>=0){Object.assign(state.tasks[idx],{title:'Practise for '+title,minutes:mins,session:sessFor(mins),split:mins>sessFor(mins)});delete state.tasks[idx].example}else state.tasks.push(prepTask(ev,mins))}
-  else if(idx>=0)state.tasks.splice(idx,1);
-  closeSheet();commit(sheetCtx.id?'Saved':'Event added',snap);
+  const on=$('fPrep').checked&&repeat!=='weekly',mins=stepVal('fPrepMin'),sess=stepVal('fPrepSess');
+  let msg=sheetCtx.id?'Saved':'Event added';
+  if(on){if(idx>=0){Object.assign(state.tasks[idx],{title:'Practise for '+title,minutes:mins,session:sess,split:mins>sess});delete state.tasks[idx].example;if(remainingOf(state.tasks[idx])>0)state.tasks[idx].completed=false}else state.tasks.push(prepTask(ev,mins,sess))}
+  else if(idx>=0){state.tasks.splice(idx,1);msg='Saved. Practice for it removed.'}
+  closeSheet();commit(msg,snap);
+}
+
+/* Session sheet: move, skip or finish one planned session */
+function altSlots(t,len){
+  const now=Date.now(),dl=deadlineOf(state,t),end=dl?dl.getTime():now+14*DAY,S=settingsOf(state);
+  let segs=plan.free.map(f=>[Math.max(f.s,now),Math.min(f.e,end)]).filter(x=>x[1]-x[0]>=len*MIN);
+  if(t.cat==='dance')segs=intersect(segs,plan.prac).filter(x=>x[1]-x[0]>=len*MIN);
+  segs.sort((a,b)=>a[0]-b[0]);
+  const out=[],seen=new Set();
+  for(const[s,e]of segs){const day=startOfDay(new Date(s)),k=ymd(day);if(seen.has(k))continue;
+    let st=s;
+    if(t.cat==='dance'){const[pa,pb]=pracWindow(S,day);const P=setMin(day,Math.max(0,Math.min(Math.max(plan.prefMin,pa),pb-len))).getTime();st=Math.min(Math.max(P,s),e-len*MIN)}
+    st=Math.ceil(st/(15*MIN))*15*MIN;if(st+len*MIN>e)continue;
+    out.push([st,st+len*MIN]);seen.add(k);if(out.length>=6)break}
+  return out;
+}
+function openSession(taskId,s,e){
+  const t=taskById(taskId);if(!t)return;
+  const ss=(plan.info[t.id]?.sessions||[]).find(x=>x.start===s)||{start:s,end:e,idx:1,count:1};
+  const len=Math.round((ss.end-ss.start)/MIN);
+  const ev=t.dueType==='event'?state.events.find(x=>x.id===t.eventId):null;
+  const alts=altSlots(t,len);const st=new Date(ss.start);
+  const sub=[ss.count>1?`Session ${ss.idx} of ${ss.count}`:null,ev?`for ${ev.title}, ${dayName(evStart(ev)).toLowerCase()==='today'?'today':dayName(evStart(ev))}`:null,ss.pinned?'time picked by you':null].filter(Boolean).join(' · ');
+  openSheet('session',head(t.cat==='dance'?'Practice':'Work Session','Done',false,'')+`<div class="sh-body">
+    <div class="sesscard c-${t.cat}"><span class="bar3"></span><div class="main"><span class="kick">${t.cat==='dance'?'Practise':'Work on'}</span><span class="t">${esc(shortTitle(t.title))}</span><span class="w">${dayName(st)}${dayName(st)===fmtDay(st)?'':', '+fmtDay(st)} · ${fmtRange(st,new Date(ss.end))}</span>${sub?`<span class="s">${esc(sub)}</span>`:''}</div></div>
+    <div class="fg"><button class="fr act" id="ssDone">Mark as Done</button></div>
+    <div><p class="cap">Move it to</p>${alts.length?`<div class="chips">${alts.map(a=>`<button class="chip slot" data-mv="${a[0]}">${slotLabel(a[0])}</button>`).join('')}</div>`:`<p class="hint">No other free time ${t.cat==='dance'?'in your practice hours ':''}before ${dl0(t)}.</p>`}</div>
+    <div><p class="cap">Or pick a time</p><div class="fg"><div class="fr"><span>Starts</span><span class="pair"><input class="pill-in" type="date" id="ssD" value="${ymd(st)}" aria-label="Date"><input class="pill-in" type="time" id="ssT" value="${hmStr(st)}" aria-label="Time"></span></div><div class="fr"><span>Length</span>${stepperHTML('ssLen',len,15,480)}</div><button class="fr act" id="ssMove">Move Here</button></div><p class="ferr" id="ssErr" hidden style="margin-top:8px"></p></div>
+    <div class="fg"><button class="fr act" id="ssSkip">Skip This One</button><button class="fr act" id="ssEdit">${t.auto?'Practice Settings':'Edit To-do'}</button></div>
+    <p class="hint">Skipping finds the next free slot automatically. To stop practice for an event completely, open Practice Settings and switch it off.</p>
+  </div>`,{taskId,s:ss.start,e:ss.end});
+}
+function dl0(t){const d=deadlineOf(state,t);return d?fmtWhen(d):'the next two weeks'}
+function overlapName(s,e){const o=occurrences(state,new Date(s),new Date(e)).find(x=>x.ev.busy!==false);return o?o.ev.title:null}
+function moveSession(t,os,oe,ns,ne){
+  const snap=snapshot();
+  t.pins=(t.pins||[]).filter(p=>!(p[0]<oe&&p[1]>os));t.pins.push([ns,ne]);
+  const clash=overlapName(ns,ne);closeSheet();
+  commit(`Moved to ${slotLabel(ns)}${clash?`. Heads up: it overlaps ${clash}.`:''}`,snap);
+}
+function logDone(t,s,e){
+  const mins=Math.round((e-s)/MIN);
+  t.done=Math.min(t.minutes,(t.done||0)+mins);if(remainingOf(t)<=0)t.completed=true;
+  t.pins=(t.pins||[]).filter(p=>!(p[0]<e&&p[1]>s));
+  state.log.push({id:uid(),taskId:t.id,title:t.title,cat:t.cat,mins,at:Date.now(),start:Math.min(s,Date.now())});
+  return t.completed?`${shortTitle(t.title)}: all done`:`Logged ${fmtDur(mins)} · ${fmtDur(remainingOf(t))} to go`;
+}
+function skipOne(t,s,e){
+  t.pins=(t.pins||[]).filter(p=>!(p[0]<e&&p[1]>s));
+  t.skips=[...(t.skips||[]),[s,e]];
+  plan=buildPlan(state,new Date());const nx=plan.info[t.id]?.sessions.find(x=>x.start!==s);
+  return nx?`Skipped. Next one: ${slotLabel(nx.start)}`:'Skipped. No other free time before it.';
 }
 
 /* Task sheet */
 function openTask(id,draft){
-  const t=id?taskById(id):null;const d=t?{...t}:(draft||{title:'',cat:'work',minutes:60,dueType:'none',due:'',eventId:'',notBefore:'',split:false,session:120,notes:'',done:0});
+  const t=id?taskById(id):null;
+  if(t&&t.auto){openEvent(t.eventId);return}
+  const d=t?{...t}:(draft||{title:'',cat:'work',minutes:60,dueType:'none',due:'',eventId:'',notBefore:'',split:false,session:120,notes:'',done:0});
   const due=d.due?parseLocal(d.due):setHM(addDays(new Date(),2),18,0);
   const now=new Date();
   const evs=state.events.filter(e=>e.repeat!=='weekly').map(e=>({e,dd:evStart(e)})).filter(x=>x.dd&&(x.dd>now||x.e.id===d.eventId)).sort((a,b)=>a.dd-b.dd);
   const inf=t&&plan.info[t.id];
-  const booked=inf&&inf.sessions.length?`Booked: ${inf.sessions.slice(0,4).map(s=>`${DOW[new Date(s.start).getDay()]} ${fmtTime(new Date(s.start))}`).join(', ')}${inf.sessions.length>4?'…':''}`:'';
-  openSheet('task',head(t?(t.auto?'Practice':'Edit To-do'):'New To-do',t?'Done':'Add')+`<div class="sh-body">
-    <div class="fg"><input class="fin" id="tTitle" placeholder="What needs doing" value="${esc(d.title)}" autocomplete="off" aria-label="Title" ${t&&t.auto?'readonly':''}></div>
+  const booked=inf&&inf.sessions.length?`Booked: ${inf.sessions.slice(0,4).map(s=>slotLabel(s.start)).join(', ')}${inf.sessions.length>4?'…':''}`:'';
+  openSheet('task',head(t?'Edit To-do':'New To-do',t?'Done':'Add')+`<div class="sh-body">
+    <div class="fg"><input class="fin" id="tTitle" placeholder="What needs doing" value="${esc(d.title)}" autocomplete="off" aria-label="Title"></div>
     ${booked?`<p class="hint" style="margin-top:-8px">${esc(booked)}</p>`:''}
     <div class="fg">
       <div class="fr"><span>Kind</span><select class="fsel" id="tCat" aria-label="Kind">${Object.entries(CAT_LABEL).map(([k,v])=>`<option value="${k}" ${d.cat===k?'selected':''}>${v}</option>`).join('')}</select></div>
       <div class="fr"><span>Time needed</span>${stepperHTML('tMin',d.minutes||60,15,2400)}</div>
       ${t?`<div class="fr"><span>Done so far</span>${stepperHTML('tDone',d.done||0,0,d.minutes||60)}</div>`:''}
     </div>
-    <div class="fg" ${t&&t.auto?'hidden':''}>
+    <div class="fg">
       <div class="fr"><span>Deadline</span><select class="fsel" id="tDue" aria-label="Deadline"><option value="none">None</option><option value="date" ${d.dueType==='date'?'selected':''}>Date</option><option value="event" ${d.dueType==='event'?'selected':''}>Before an Event</option></select></div>
       <div class="fr" id="tDateRow"><span>Due</span><span class="pair"><input class="pill-in" type="date" id="tDD" value="${ymd(due)}" aria-label="Due date"><input class="pill-in" type="time" id="tDT" value="${hmStr(due)}" aria-label="Due time"></span></div>
       <div class="fr" id="tEvRow"><span>Event</span><select class="fsel" id="tEv" aria-label="Event">${evs.map(x=>`<option value="${x.e.id}" ${x.e.id===d.eventId?'selected':''}>${esc(x.e.title)} · ${fmtDay(x.dd)}</option>`).join('')||'<option value="">No upcoming events</option>'}</select></div>
     </div>
     <div class="fg"><div class="fr"><span>Do it in one go</span>${sw('tOne',!d.split)}</div></div>
+    <p class="ffoot">Dance practice only goes in your practice hours. Work goes in the earliest free time.</p>
     <div class="fg"><textarea class="fta" id="tNotes" placeholder="Notes" rows="2" aria-label="Notes">${esc(d.notes||'')}</textarea></div>
     <p class="ferr" id="tErr" hidden></p>
-    ${t?`<div class="fg"><button class="fr act" id="tComplete">${t.completed?'Mark as Not Done':'Mark as Done'}</button>${t.auto?'':`<button class="fr danger" id="tDel">Delete To-do</button>`}</div>`:''}
+    ${t?`<div class="fg"><button class="fr act" id="tComplete">${t.completed?'Mark as Not Done':'Mark as Done'}</button><button class="fr danger" id="tDel">Delete To-do</button></div>`:''}
   </div>`,{id:t?t.id:null});
   syncTaskSheet();
 }
@@ -1250,25 +1438,29 @@ function saveTask(){
   const dueType=$('tDue').value;
   if(dueType==='event'&&!$('tEv').value){er.textContent='No upcoming event to pick. Add the event first, or choose a date.';er.hidden=false;return}
   const snap=snapshot(),mins=stepVal('tMin'),cat=$('tCat').value,one=$('tOne').checked;
-  const data={title,cat,minutes:mins,notes:$('tNotes').value.trim(),split:!one,session:cat==='dance'?sessFor(mins):120};
+  const data={title,cat,minutes:mins,notes:$('tNotes').value.trim(),split:!one,session:cat==='dance'?60:120,dueType,due:dueType==='date'?$('tDD').value+'T'+($('tDT').value||'22:00'):'',eventId:dueType==='event'?$('tEv').value:''};
   let t=sheetCtx.id&&taskById(sheetCtx.id);
-  if(!t||!t.auto)Object.assign(data,{dueType,due:dueType==='date'?$('tDD').value+'T'+($('tDT').value||'22:00'):'',eventId:dueType==='event'?$('tEv').value:''});
   if(t){Object.assign(t,data);if($('tDone'))t.done=Math.min(stepVal('tDone'),mins);delete t.example;if(remainingOf(t)>0)t.completed=false}
-  else{t={id:uid(),...data,done:0,notBefore:'',completed:false,auto:false,created:Date.now(),skips:[]};state.tasks.push(t)}
+  else{t={id:uid(),...data,done:0,notBefore:'',completed:false,auto:false,created:Date.now(),skips:[],pins:[]};state.tasks.push(t)}
   closeSheet();commit(sheetCtx.id?'Saved':'To-do added',snap);
 }
 
-/* Settings */
+/* Settings: changes apply as soon as they're made */
 function openSettings(){
-  const S={...DEFAULTS,...state.settings};const ex=state.events.some(e=>e.example)||state.tasks.some(t=>t.example);
+  const S=settingsOf(state);const ex=state.events.some(e=>e.example)||state.tasks.some(t=>t.example);
   const user=mode==='cloud'&&fb&&fb.auth().currentUser;
-  openSheet('settings',head('Settings','Done')+`<div class="sh-body">
-    <div><p class="cap">Appearance</p><div class="segc" id="sTheme"><span class="thumb"></span><button type="button" data-th="system" aria-pressed="${S.theme==='system'}">System</button><button type="button" data-th="light" aria-pressed="${S.theme==='light'}">Light</button><button type="button" data-th="dark" aria-pressed="${S.theme==='dark'}">Dark</button></div></div>
-    <div><p class="cap">Planning</p><div class="fg">
-      <div class="fr"><span>Day starts</span><input class="pill-in" type="time" id="sStart" value="${S.dayStart}" aria-label="Day starts"></div>
-      <div class="fr"><span>Day ends</span><input class="pill-in" type="time" id="sEnd" value="${S.dayEnd}" aria-label="Day ends"></div>
+  const typeRows=typesOf(state).map(t=>`<button class="fr nav-r" data-type="${t.id}"><span class="lbl"><span class="dot k-${t.color}"></span>${esc(t.name)}</span><span class="pair" style="color:var(--label-2);font-size:15px">${t.prep?fmtDur(t.prep)+' practice':'No practice'}${CHEV}</span></button>`).join('');
+  openSheet('settings',head('Settings','Done',false,'')+`<div class="sh-body">
+    <div><p class="cap">Practice hours</p><div class="fg">
+      <div class="fr"><span>Weekdays</span><span class="pair"><input class="pill-in" type="time" id="sWk1" value="${S.pracWk[0]}" aria-label="Weekday practice from">–<input class="pill-in" type="time" id="sWk2" value="${S.pracWk[1]}" aria-label="Weekday practice until"></span></div>
+      <div class="fr"><span>Weekends</span><span class="pair"><input class="pill-in" type="time" id="sWe1" value="${S.pracWe[0]}" aria-label="Weekend practice from">–<input class="pill-in" type="time" id="sWe2" value="${S.pracWe[1]}" aria-label="Weekend practice until"></span></div>
+    </div><p class="hint" style="margin-top:8px">Practice is only ever booked inside these hours.${plan.learned!=null?` Within them, sessions start around ${fmtTime(setMin(new Date(),plan.learned))}, when you usually practise.`:''}</p></div>
+    <div><p class="cap">Your day</p><div class="fg">
+      <div class="fr"><span>Available</span><span class="pair"><input class="pill-in" type="time" id="sStart" value="${S.dayStart}" aria-label="Available from">–<input class="pill-in" type="time" id="sEnd" value="${S.dayEnd}" aria-label="Available until"></span></div>
       <div class="fr"><span>Gap around events</span>${stepperHTML('sBuf',S.buffer,0,120)}</div>
-    </div><p class="hint" style="margin-top:8px">Practice and work only go between these hours, with a gap around events for travel and changing.${plan.learned!=null?` Practice time is learned from your sessions: around ${fmtTime(setMin(new Date(),plan.learned))}.`:''}</p></div>
+    </div><p class="hint" style="margin-top:8px">Work and to-dos go in these hours. The gap leaves time to travel and change.</p><p class="ferr" id="sErr" hidden style="margin-top:8px"></p></div>
+    <div><p class="cap">Event types</p><div class="fg">${typeRows}<button class="fr act" id="sAddType">Add Type</button></div><p class="hint" style="margin-top:8px">Each type sets its colour, and how much practice gets planned before events of that type.</p></div>
+    <div><p class="cap">Appearance</p><div class="segc" id="sTheme"><span class="thumb"></span><button type="button" data-th="system" aria-pressed="${S.theme==='system'}">System</button><button type="button" data-th="light" aria-pressed="${S.theme==='light'}">Light</button><button type="button" data-th="dark" aria-pressed="${S.theme==='dark'}">Dark</button></div></div>
     <div><p class="cap">Account</p><div class="fg">
       <div class="fr"><span style="overflow:hidden;text-overflow:ellipsis">${user?esc(user.email):'This device only'}</span><span style="color:var(--label-2)">${syncLabel()}</span></div>
       ${user?`<button class="fr danger" id="sOut">Sign Out</button>`:''}
@@ -1277,30 +1469,82 @@ function openSettings(){
       <button class="fr act" id="sCopy">Copy Backup</button>
       <button class="fr act" id="sRestore">Restore a Backup</button>
       ${ex?`<button class="fr danger" id="sClear">Clear Example Items</button>`:''}
-    </div><textarea class="fta" id="sPaste" hidden placeholder="Paste your backup here, then tap Restore a Backup again" style="background:var(--row);border-radius:12px;margin-top:10px;font-family:ui-monospace,Menlo,monospace;font-size:12px"></textarea><p class="ferr" id="sErr" hidden style="margin-top:8px"></p></div>
+    </div><textarea class="fta" id="sPaste" hidden placeholder="Paste your backup here, then tap Restore a Backup again" style="background:var(--row);border-radius:12px;margin-top:10px;font-family:ui-monospace,Menlo,monospace;font-size:12px"></textarea><p class="ferr" id="sErr2" hidden style="margin-top:8px"></p></div>
   </div>`);
   setThumb($('sTheme'));
 }
-function saveSettings(){
-  const a=$('sStart').value,b=$('sEnd').value,er=$('sErr');
-  if(!a||!b||toMin(b)-toMin(a)<60){er.textContent='The day needs to end at least an hour after it starts.';er.hidden=false;return}
-  state.settings={...state.settings,dayStart:a,dayEnd:b,buffer:stepVal('sBuf')};closeSheet();commit();
+function applyHours(){
+  const er=$('sErr');er.hidden=true;
+  const v=id=>$(id).value,ok=(a,b,min)=>a&&b&&((toMin(b)||1440)-toMin(a))>=min;
+  if(!ok(v('sStart'),v('sEnd'),60)){er.textContent='Your available hours need to be at least an hour long.';er.hidden=false;return}
+  if(!ok(v('sWk1'),v('sWk2'),30)||!ok(v('sWe1'),v('sWe2'),30)){er.textContent='Practice hours need to end at least 30 minutes after they start.';er.hidden=false;return}
+  state.settings={...state.settings,dayStart:v('sStart'),dayEnd:v('sEnd'),pracWk:[v('sWk1'),v('sWk2')],pracWe:[v('sWe1'),v('sWe2')],buffer:stepVal('sBuf')};
+  commit();
 }
+
+/* Event type editor */
+function openTypeEditor(id){
+  const ty=id?typesOf(state).find(t=>t.id===id):null;
+  const d=ty?{...ty}:{name:'',color:'pink',busy:true,len:60,prep:0,sess:60,words:''};
+  const count=ty?state.events.filter(e=>e.type===ty.id).length:0;
+  openSheet('type',head(ty?'Edit Type':'New Type','Save',false,'Back')+`<div class="sh-body">
+    <div class="fg"><input class="fin" id="yName" placeholder="Name, e.g. Competition" value="${esc(d.name)}" autocomplete="off" aria-label="Name"></div>
+    <div><p class="cap">Colour</p><div class="fg"><div class="swatches" id="ySw" role="radiogroup" aria-label="Colour">${COLORS.map(c=>`<button type="button" class="sw k-${c}" data-c="${c}" aria-label="${c}" aria-pressed="${c===d.color}"></button>`).join('')}</div></div></div>
+    <div class="fg">
+      <div class="fr"><span>Usual length</span>${stepperHTML('yLen',d.len||60,15,720)}</div>
+      <div class="fr"><span>Blocks my time</span>${sw('yBusy',d.busy!==false)}</div>
+    </div>
+    <div class="fg">
+      <div class="fr"><span>Plan practice before it</span>${sw('yPrep',d.prep>0)}</div>
+      <div class="fr yPrepRow"><span>Total practice</span>${stepperHTML('yPrepMin',d.prep||120,15,1200)}</div>
+      <div class="fr yPrepRow"><span>Per session</span>${stepperHTML('yPrepSess',d.sess||60,30,240)}</div>
+    </div>
+    <p class="ffoot">Applies to new events of this type. You can still change the amount on any single event.</p>
+    <div><p class="cap">Words that mean this type</p><div class="fg"><input class="fin" id="yWords" placeholder="e.g. comp, eisteddfod, battle" value="${esc(d.words||'')}" autocomplete="off" aria-label="Keywords" style="font-size:16px"></div><p class="hint" style="margin-top:8px">When she types "Battle Sat 3pm", a matching word picks this type. Separate words with commas.</p></div>
+    <p class="ferr" id="yErr" hidden></p>
+    ${ty&&typesOf(state).length>1?`<div class="fg"><button class="fr danger" id="yDel">Delete Type</button></div>${count?`<p class="ffoot">${count} ${count===1?'event uses':'events use'} this type. ${count===1?'It':'They'}'ll become ${esc(typeById(state,ty.id==='personal'?typesOf(state).find(t=>t.id!==ty.id).id:'personal').name)}.</p>`:''}`:''}
+  </div>`,{id:ty?ty.id:null,color:d.color});
+  const syncY=()=>document.querySelectorAll('#sheet .yPrepRow').forEach(x=>x.hidden=!$('yPrep').checked);syncY();
+  $('yPrep').addEventListener('change',syncY);
+}
+function saveType(){
+  const er=$('yErr');er.hidden=true;const name=$('yName').value.trim();
+  if(!name){er.textContent='Give the type a name.';er.hidden=false;return}
+  const types=typesOf(state).map(t=>({...t}));
+  if(types.some(t=>t.name.toLowerCase()===name.toLowerCase()&&t.id!==sheetCtx.id)){er.textContent='There is already a type with that name.';er.hidden=false;return}
+  const data={name,color:sheetCtx.color,len:stepVal('yLen'),busy:$('yBusy').checked,prep:$('yPrep').checked?stepVal('yPrepMin'):0,sess:stepVal('yPrepSess'),words:$('yWords').value.trim()};
+  const snap=snapshot();
+  if(sheetCtx.id){const t=types.find(x=>x.id===sheetCtx.id);Object.assign(t,data)}else types.push({id:'ty'+uid(),...data});
+  state.settings={...state.settings,types};commit(sheetCtx.id?'Type saved':'Type added',snap);openSettings();
+}
+
 function bindSheet(kind){
   const sh=$('sheet');
-  sh.querySelector('[data-sh="cancel"]').onclick=closeSheet;
+  const cancel=sh.querySelector('[data-sh="cancel"]');if(cancel)cancel.onclick=kind==='type'?openSettings:closeSheet;
   const save=sh.querySelector('[data-sh="save"]');
+  sh.onclick=null;
   if(kind==='quick'){save.onclick=saveQuick;$('qText').addEventListener('input',quickPreview);$('qText').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(sheetCtx.q)saveQuick()}});
     sh.onclick=e=>{const c=e.target.closest('[data-ex]');if(c){$('qText').value=c.dataset.ex;quickPreview();$('qText').focus();return}
       const n=e.target.closest('[data-new]');if(n){const k=n.dataset.new;closeSheet();setTimeout(()=>k==='event'?openEvent(null):openTask(null),320);return}
       if(e.target.closest('[data-qedit]')){const q=sheetCtx.q;closeSheet();setTimeout(()=>q.kind==='event'?openEvent(null,draftFromQuick(q)):openTask(null,draftFromQuick(q)),320)}}}
-  else sh.onclick=null;
   if(kind==='event'){save.onclick=saveEvent;['fAll','fRep','fPrep'].forEach(id=>$(id).addEventListener('change',syncEventSheet));
-    $('fType').addEventListener('change',()=>{if(!sheetCtx.id){const a=autoPrep($('fType').value,$('fTitle').value);$('fPrep').checked=a>0;if(a)setStep('fPrepMin',a);syncEventSheet()}});
-    $('fTitle').addEventListener('change',()=>{if(!sheetCtx.id){const g=guessType($('fTitle').value);if(g!=='personal'){$('fType').value=g;$('fType').dispatchEvent(new Event('change'))}}});
+    $('fType').addEventListener('change',()=>{const ty=typeById(state,$('fType').value);$('fDot').className='dot k-'+ty.color;$('fBusy').value=ty.busy===false?'0':'1';
+      $('fPrep').checked=ty.prep>0;if(ty.prep>0){setStep('fPrepMin',ty.prep);setStep('fPrepSess',ty.sess||60)}syncEventSheet()});
+    $('fTitle').addEventListener('change',()=>{if(!sheetCtx.id){const g=guessType($('fTitle').value,typesOf(state));if(g!==$('fType').value&&g!=='personal'){$('fType').value=g;$('fType').dispatchEvent(new Event('change'))}}});
     $('fSD').addEventListener('change',()=>{if($('fED').value<$('fSD').value)$('fED').value=$('fSD').value});
     $('fST').addEventListener('change',()=>{const s=parseLocal($('fSD').value+'T'+$('fST').value),e=parseLocal($('fED').value+'T'+$('fET').value);if(s&&e&&e<=s){const n=new Date(s.getTime()+60*MIN);$('fED').value=ymd(n);$('fET').value=hmStr(n)}});
-    if($('fDel'))$('fDel').onclick=()=>arm($('fDel'),'Delete Event',()=>{const snap=snapshot();state.events=state.events.filter(x=>x.id!==sheetCtx.id);state.tasks=state.tasks.filter(t=>!(t.auto&&t.eventId===sheetCtx.id));closeSheet();commit('Event deleted',snap)})}
+    if($('fDel'))$('fDel').onclick=()=>arm($('fDel'),'Delete Event',()=>{const snap=snapshot();const n=state.tasks.filter(t=>t.eventId===sheetCtx.id).length;
+      state.events=state.events.filter(x=>x.id!==sheetCtx.id);state.tasks=state.tasks.filter(t=>t.eventId!==sheetCtx.id);closeSheet();commit(n?'Event and its practice deleted':'Event deleted',snap)})}
+  if(kind==='session'){save.onclick=closeSheet;
+    const t=taskById(sheetCtx.taskId),{s,e}=sheetCtx;
+    $('ssDone').onclick=()=>{const snap=snapshot();const msg=logDone(t,s,e);closeSheet();commit(msg,snap)};
+    $('ssSkip').onclick=()=>{const snap=snapshot();const msg=skipOne(t,s,e);closeSheet();commit(msg,snap)};
+    $('ssEdit').onclick=()=>{closeSheet();setTimeout(()=>t.auto?openEvent(t.eventId):openTask(t.id),320)};
+    $('ssMove').onclick=()=>{const er=$('ssErr');er.hidden=true;const ns=parseLocal($('ssD').value+'T'+$('ssT').value);if(!ns||isNaN(ns)){er.textContent='Pick a date and time.';er.hidden=false;return}
+      if(ns.getTime()<Date.now()-5*MIN){er.textContent='That time has already passed.';er.hidden=false;return}
+      const dl=deadlineOf(state,t);const ne=ns.getTime()+stepVal('ssLen')*MIN;if(dl&&ne>dl.getTime()){er.textContent=`That's after ${dl0(t)}, when it's needed by.`;er.hidden=false;return}
+      moveSession(t,s,e,ns.getTime(),ne)};
+    sh.onclick=ev=>{const b=ev.target.closest('[data-mv]');if(b){const ns=+b.dataset.mv;moveSession(t,s,e,ns,ns+(e-s))}}}
   if(kind==='task'){save.onclick=saveTask;$('tDue').addEventListener('change',syncTaskSheet);
     $('tMin').addEventListener('change',()=>{const d=$('tDone');if(d){d.dataset.max=stepVal('tMin');if(stepVal('tDone')>stepVal('tMin'))setStep('tDone',stepVal('tMin'))}});
     if($('tComplete'))$('tComplete').onclick=()=>{const t=taskById(sheetCtx.id);if(!t)return;const snap=snapshot();
@@ -1308,29 +1552,28 @@ function bindSheet(kind){
       else{t.completed=false;if(remainingOf(t)<=0)t.done=0}
       closeSheet();commit(t.completed?'Marked as done':'Back on your list',snap)};
     if($('tDel'))$('tDel').onclick=()=>arm($('tDel'),'Delete To-do',()=>{const snap=snapshot();state.tasks=state.tasks.filter(x=>x.id!==sheetCtx.id);closeSheet();commit('To-do deleted',snap)})}
-  if(kind==='settings'){save.onclick=saveSettings;
+  if(kind==='settings'){save.onclick=closeSheet;
+    ['sStart','sEnd','sWk1','sWk2','sWe1','sWe2'].forEach(id=>$(id).addEventListener('change',applyHours));$('sBuf').addEventListener('change',applyHours);
     $('sTheme').addEventListener('click',e=>{const b=e.target.closest('[data-th]');if(!b)return;state.settings.theme=b.dataset.th;$('sTheme').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));setThumb($('sTheme'));applyTheme();persist()});
+    sh.onclick=e=>{const b=e.target.closest('[data-type]');if(b)openTypeEditor(b.dataset.type)};
+    $('sAddType').onclick=()=>openTypeEditor(null);
     if($('sOut'))$('sOut').onclick=()=>{closeSheet();fb.auth().signOut()};
     $('sCopy').onclick=async()=>{const txt=JSON.stringify({app:'chereography',exported:new Date().toISOString(),...state});try{await navigator.clipboard.writeText(txt);toast('Backup copied. Paste it into Notes to keep it safe.')}catch(e){$('sPaste').hidden=false;$('sPaste').value=txt;$('sPaste').select();toast('Select all and copy the text in the box')}};
     $('sRestore').onclick=()=>{const p=$('sPaste');if(p.hidden||!p.value.trim()){p.hidden=false;p.value='';p.focus();return}
-      try{const d=JSON.parse(p.value);if(!d||!Array.isArray(d.events)||!Array.isArray(d.tasks))throw 0;const snap=snapshot();state=normalize(d);closeSheet();commit('Backup restored',snap)}catch(x){$('sErr').textContent="That isn't a Chereography backup. Paste the whole text you copied.";$('sErr').hidden=false}};
+      try{const d=JSON.parse(p.value);if(!d||!Array.isArray(d.events)||!Array.isArray(d.tasks))throw 0;const snap=snapshot();state=normalize(d);closeSheet();commit('Backup restored',snap)}catch(x){$('sErr2').textContent="That isn't a Chereography backup. Paste the whole text you copied.";$('sErr2').hidden=false}};
     if($('sClear'))$('sClear').onclick=()=>{closeSheet();clearExamples()}}
+  if(kind==='type'){save.onclick=saveType;
+    $('ySw').onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;sheetCtx.color=b.dataset.c;$('ySw').querySelectorAll('.sw').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'))};
+    if($('yDel'))$('yDel').onclick=()=>arm($('yDel'),'Delete Type',()=>{const snap=snapshot();const types=typesOf(state).filter(t=>t.id!==sheetCtx.id);
+      const fbk=(types.find(t=>t.id==='personal')||types[0]).id;state.events.forEach(e=>{if(e.type===sheetCtx.id)e.type=fbk});
+      state.settings={...state.settings,types};commit('Type deleted',snap);openSettings()})}
 }
 function arm(btn,label,fn){if(btn.classList.contains('armed')){fn();return}btn.classList.add('armed');btn.textContent='Tap Again to Delete';setTimeout(()=>{if(btn.isConnected){btn.classList.remove('armed');btn.textContent=label}},3500)}
 function clearExamples(){const snap=snapshot();state.events=state.events.filter(e=>!e.example);state.tasks=state.tasks.filter(t=>!t.example);state.log=state.log.filter(l=>!l.example);commit('Examples cleared',snap)}
 
-/* ---------- session actions ---------- */
-function completeSession(row){
-  const t=taskById(row.dataset.task);if(!t)return;const s=+row.dataset.s,e=+row.dataset.e,mins=(e-s)/MIN;const snap=snapshot();
-  t.done=Math.min(t.minutes,(t.done||0)+mins);if(remainingOf(t)<=0)t.completed=true;
-  state.log.push({id:uid(),taskId:t.id,title:t.title,cat:t.cat,mins,at:Date.now(),start:Math.min(s,Date.now())});
-  collapse(row,()=>commit(t.completed?`${shortTitle(t.title)}: all done`:`Logged ${fmtDur(mins)} · ${fmtDur(remainingOf(t))} to go`,snap));
-}
-function laterSession(row){
-  const t=taskById(row.dataset.task);if(!t)return;const snap=snapshot();
-  t.skips=[...(t.skips||[]),[+row.dataset.s,+row.dataset.e]];
-  collapse(row,()=>{plan=buildPlan(state,new Date());const nx=plan.info[t.id]?.sessions[0];commit(nx?`Moved to ${dayName(new Date(nx.start))}, ${fmtTime(new Date(nx.start))}`:'Moved, but no free time is left for it',snap)});
-}
+/* ---------- swipe actions on session rows ---------- */
+function rowDone(row){const t=taskById(row.dataset.task);if(!t)return;const snap=snapshot();const msg=logDone(t,+row.dataset.s,+row.dataset.e);collapse(row,()=>commit(msg,snap))}
+function rowSkip(row){const t=taskById(row.dataset.task);if(!t)return;const snap=snapshot();collapse(row,()=>{const msg=skipOne(t,+row.dataset.s,+row.dataset.e);commit(msg,snap)})}
 function collapse(row,cb){row.style.height=row.offsetHeight+'px';void row.offsetHeight;row.style.height='0px';row.style.opacity='0';setTimeout(cb,280)}
 
 /* ---------- gestures ---------- */
@@ -1358,8 +1601,8 @@ function endDrag(e){
   if(!drag||(e&&e.pointerId!==drag.id))return;const d=drag;drag=null;
   if(!d.lock)return;suppress=true;setTimeout(()=>suppress=false,80);
   if(d.k==='row'){d.row.classList.remove('drag');const dx=d.dx||0;
-    if(dx>90){d.el.style.transform='translateX(100%)';if(navigator.vibrate)navigator.vibrate(8);setTimeout(()=>completeSession(d.row),200)}
-    else if(dx<-90){d.el.style.transform='translateX(-100%)';if(navigator.vibrate)navigator.vibrate(8);setTimeout(()=>laterSession(d.row),200)}
+    if(dx>90){d.el.style.transform='translateX(100%)';if(navigator.vibrate)navigator.vibrate(8);setTimeout(()=>rowDone(d.row),200)}
+    else if(dx<-90){d.el.style.transform='translateX(-100%)';if(navigator.vibrate)navigator.vibrate(8);setTimeout(()=>rowSkip(d.row),200)}
     else{d.el.style.transform='';setTimeout(()=>delete d.row.dataset.dir,320)}}
   else if(d.k==='sheet'){d.el.classList.remove('drag');const v=(d.dy||0)/(performance.now()-d.t0);if((d.dy||0)>120||v>.6)closeSheet();else d.el.style.transform=''}
   else{const dx=d.dx||0,v=Math.abs(dx)/(performance.now()-d.t0);if(Math.abs(dx)>70||v>.5)slide(dx<0?1:-1);else{d.el.style.transition='transform .3s var(--ease)';d.el.style.transform=''}}
@@ -1380,15 +1623,17 @@ document.addEventListener('click',e=>{
   const tb=e.target.closest('[data-tab]');if(tb){setTab(tb.dataset.tab);return}
   const cv=e.target.closest('[data-cv]');if(cv){if(calView!==cv.dataset.cv){calView=cv.dataset.cv;saveUI();render()}return}
   if(e.target.closest('#sheet'))return;
-  const ck=e.target.closest('[data-check]');if(ck){ck.classList.add('on');if(navigator.vibrate)navigator.vibrate(8);const row=ck.closest('.srow');setTimeout(()=>completeSession(row),280);return}
-  const a=e.target.closest('[data-act]');if(a){if(a.dataset.act==='clearEx')clearExamples();if(a.dataset.act==='settings')openSettings();return}
-  const op=e.target.closest('[data-open]');if(op){const[k,id]=op.dataset.open.split(':');k==='ev'?openEvent(id):openTask(id);return}
+  const ck=e.target.closest('[data-check]');if(ck){ck.classList.add('on');if(navigator.vibrate)navigator.vibrate(8);const row=ck.closest('.srow');setTimeout(()=>rowDone(row),280);return}
+  const a=e.target.closest('[data-act]');if(a){if(a.dataset.act==='clearEx')clearExamples();return}
+  const op=e.target.closest('[data-open]');if(op){const[k,id,s,en]=op.dataset.open.split(':');if(k==='ev')openEvent(id);else if(k==='sess')openSession(id,+s,+en);else openTask(id);return}
+  const g=e.target.closest('[data-goto]');if(g){anchor=parseYMD(g.dataset.goto);calView='week';tab='cal';saveUI();$('content').scrollTop=0;render();if(!wide()){const el=$('wd-'+g.dataset.goto);if(el)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),60)}return}
   const j=e.target.closest('[data-jump]');if(j){const el=$('wd-'+j.dataset.jump);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});return}
   const sd=e.target.closest('[data-sel]');if(sd){if(wide()){if(e.target.closest('.mo-n')){anchor=parseYMD(sd.dataset.sel);calView='week';saveUI();render()}}else selectDay(sd.dataset.sel);return}
-  const col=e.target.closest('.wk-c');if(col&&e.target===col){const r=col.getBoundingClientRect(),y=(e.clientY-r.top)/r.height,rs=+col.dataset.rs,re=+col.dataset.re,mm=Math.round((rs+y*(re-rs))/30)*30,st=setMin(parseYMD(col.dataset.day),mm);
-    openEvent(null,{title:'',type:'rehearsal',allDay:false,start:localStr(st),end:localStr(new Date(st.getTime()+60*MIN)),repeat:'none',until:'',busy:true,notes:''})}
+  const col=e.target.closest('.wk-c');if(col&&(e.target===col||e.target.classList.contains('prz'))){const r=col.getBoundingClientRect(),y=(e.clientY-r.top)/r.height,rs=+col.dataset.rs,re=+col.dataset.re,mm=Math.round((rs+y*(re-rs))/30)*30,st=setMin(parseYMD(col.dataset.day),mm);
+    openEvent(null,{title:'',type:typesOf(state)[0].id,allDay:false,start:localStr(st),end:localStr(new Date(st.getTime()+60*MIN)),repeat:'none',until:'',busy:true,notes:''})}
 });
 $('addBtn').onclick=()=>state&&openQuick();
+$('gearBtn').onclick=()=>state&&openSettings();
 $('todayBtn').onclick=()=>{const was=ymd(startOfWeek(anchor));anchor=startOfDay(new Date());selDay=ymd(anchor);if(was!==ymd(startOfWeek(anchor))||calView==='month')render();if(!wide()&&calView==='week'){const el=$('wd-'+ymd(new Date()));if(el)el.scrollIntoView({behavior:'smooth'})}};
 $('prevBtn').onclick=()=>slide(-1);$('nextBtn').onclick=()=>slide(1);
 document.addEventListener('keydown',e=>{if(sheetOpen||!state||e.target.closest('input,textarea,select'))return;
